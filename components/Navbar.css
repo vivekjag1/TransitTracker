@@ -13,7 +13,7 @@
     cursor: pointer;
     padding-left: 1vw;
     padding-right: 1vw;
-    /*border-radius: 0 1vw 1vw 0;*/
+    border-radius: 0 1vw 1vw 0;
 }
 .navbarContainerOpen{
     position: sticky; /*navbar will stick if scrolled beyond */
@@ -29,6 +29,8 @@
     flex-shrink: 0;
     cursor: pointer;
     justify-content: space-between;
+    border-radius: 0 1vw 1vw 0;
+
 }
 
 .navbarLayout{
@@ -43,8 +45,9 @@
     position: absolute;
     bottom: 2vh;
     display: flex;
-    flex-direction: row;
-    align-self: center;
+    flex-direction: column;
+    place-items: center;
+    margin-top: 2vh;
 }
 
 
