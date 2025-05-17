@@ -6,7 +6,7 @@
     flex-direction: column;
     place-items: center;
     align-items: center;
-    background-color: black;
+    background-color: darkblue;
     width: fit-content;
     flex-shrink: 0;
     cursor: pointer;
@@ -22,7 +22,7 @@
     flex-direction: column;
     place-items: center;
     align-items: center;
-    background-color: black;
+    background-color: darkblue;
     width: 20rem;
     flex-shrink: 0;
     cursor: pointer;
