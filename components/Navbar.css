@@ -1,11 +1,11 @@
 
 .navbarContainerClosed{
-
     position: sticky; /*navbar will stick if scrolled beyond */
     top: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
+    place-items: center;
     align-items: center;
     background-color: black;
     width: fit-content;
@@ -13,7 +13,6 @@
     cursor: pointer;
     padding-left: 1vw;
     padding-right: 1vw;
-    justify-content: space-between;
     /*border-radius: 0 1vw 1vw 0;*/
 }
 .navbarContainerOpen{
@@ -22,14 +21,14 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    place-items: center;
+
     align-items: center;
     background-color: black;
     width: 20rem;
     flex-shrink: 0;
     cursor: pointer;
     justify-content: space-between;
-
-
 }
 
 .navbarLayout{
@@ -42,12 +41,10 @@
 
 .navbarLayoutClose{
     position: absolute;
-    bottom: 0;
+    bottom: 2vh;
     display: flex;
-    flex-direction: column;
-    place-items: center;
-    width: 100%;
-    margin-top: 2vh;
+    flex-direction: row;
+    align-self: center;
 }
 
 
@@ -63,6 +60,21 @@
     padding-left: .5vw;
     padding-right: .5vw;
     width: 100%;
+}
+.iconAndTitleContainerClose:hover{
+    background-color: lightslategrey;
+    border-radius: .5rem;
+}
+
+
+.iconAndTitleContainerClose{
+    display: flex;
+    flex-direction: row;
+    place-items: center;
+    padding-left: .5vw;
+    padding-right: .5vw;
+    width: 100%;
+
 }
 
 

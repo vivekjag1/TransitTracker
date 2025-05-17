@@ -23,8 +23,8 @@ const Navbar = () => {
         <NavItem imageSrc={download} imageAlt={"download"} linkTo={"/download"} textDescription={"Expense Reports"} open={isOpen}/>
         <NavItem imageSrc={pathfind} imageAlt={"pathfinder"} linkTo={"/pathfind"} textDescription={"Navigate"} open={isOpen}/>
         <NavItem imageSrc={trips} imageAlt={"my trips"} linkTo={"/myTrips"} textDescription={"My Trips"} open={isOpen}/>
-        <div className="navbarLayout"  onClick={isOpen? () => setOpen(false):() => setOpen(true)} >
-          <div className="iconAndTitleContainer">
+        <div className="navbarLayoutClose"  onClick={isOpen? () => setOpen(false):() => setOpen(true)} >
+          <div className="iconAndTitleContainerClose">
             {isOpen? <Image className="iconOpen" src={close} alt={"close"}/>: <Image className="iconClose" src={expand} alt={"close"}/>}
             {isOpen && <h1 className="titleText">Collapse</h1>}
           </div>
