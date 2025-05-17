@@ -12,27 +12,29 @@ import trips from "../public/my-trips.svg";
 import close from "../public/collapse.svg"
 import Image from "next/image";
 import expand from "../public/expand.svg";
+import {motion} from 'framer-motion';
 const Navbar = () => {
   const [isOpen, setOpen] = useState(true);
+  const MotionImage = motion(Image);
   return (
-    <nav className={isOpen ? "navbarContainerOpen" : "navbarContainerClosed"}>
-      <div>
+    <motion.nav layout className={isOpen ? "navbarContainerOpen" : "navbarContainerClosed"}>
+      <div >
         <NavItem imageSrc={icon} imageAlt={"Header"} linkTo={"/"} textDescription={"Transit Tracker"} open={isOpen}/>
-        <div className="divider"/>
+        <motion.div layout className="divider"/>
         <NavItem imageSrc={notes} imageAlt={"logTrip"} linkTo={"/trip"} textDescription={"Log Trip"} open={isOpen}/>
         <NavItem imageSrc={download} imageAlt={"download"} linkTo={"/download"} textDescription={"Expense Reports"} open={isOpen}/>
         <NavItem imageSrc={pathfind} imageAlt={"pathfinder"} linkTo={"/pathfind"} textDescription={"Navigate"} open={isOpen}/>
         <NavItem imageSrc={trips} imageAlt={"my trips"} linkTo={"/myTrips"} textDescription={"My Trips"} open={isOpen}/>
         <div className="navbarLayoutClose"  onClick={isOpen? () => setOpen(false):() => setOpen(true)} >
           <div className="iconAndTitleContainer">
-            {isOpen? <Image className="iconOpen" src={close} alt={"close"}/>: <Image className="iconClose" src={expand} alt={"close"}/>}
-            {isOpen && <h1 className="titleText">Collapse</h1>}
+            {isOpen? <MotionImage layout className="iconOpen" src={close} alt={"close"}/>: <MotionImage layout className="iconClose" src={expand} alt={"close"}/>}
+            {isOpen && <motion.h1 layout className="titleText">Collapse</motion.h1>}
           </div>
         </div>
       </div>
 
 
-    </nav>
+    </motion.nav>
 
   );
 }

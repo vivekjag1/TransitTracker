@@ -7,16 +7,19 @@ interface NavItemProps{
 
 }
 
-import Image from "next/image";
+import test from "../public/expand.svg";
 
+import Image from "next/image";
+import {motion} from "framer-motion";
 const NavItem = (props:NavItemProps) =>{
+  const AnimateImage = motion(Image);
   return (
-    <a className="navbarLayout" href={props.linkTo}>
-      <div className="iconAndTitleContainer">
-        <Image className={props.open? "iconOpen":"iconClose"} src={props.imageSrc} alt={props.imageAlt}/>
-        {props.open && <h1 className="titleText">{props.textDescription}</h1>}
-      </div>
-    </a>
+    <motion.a layout className="navbarLayout" href={props.linkTo}>
+      <motion.div layout className="iconAndTitleContainer">
+        <AnimateImage layout className={props.open? "iconOpen":"iconClose"} src={props.imageSrc} alt={props.imageAlt}/>
+        {props.open && <motion.h1  layout className="titleText">{props.textDescription}</motion.h1>}
+      </motion.div>
+    </motion.a>
   );
 }
 
