@@ -9,7 +9,6 @@ export default function Home() {
         <h1 className="heroTextMain">Track trips on public transit, planes, and trains</h1>
         <br></br>
         <h2 className="heroTextSub">Click anywhere to get started</h2>
-
       </div>
       <div className="gradient">
       </div>
