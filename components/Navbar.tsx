@@ -35,27 +35,25 @@ const Navbar = () => {
         </NavItem>
         <motion.div layout className="divider"/>
         <NavItem imageAlt={'Trip'} linkTo={'/trip'} textDescription={"Log Trips"} open={isOpen} isTitle={false}>
-          <MotionAirplane layout className={isOpen? "iconOpen":"iconClose"} sx={{fontSize:"2.5vw"}}/>
+          <MotionAirplane layout className={isOpen? "iconOpen":"iconClose"} sx={{fontSize:"2vw"}}/>
         </NavItem>
         <NavItem imageAlt={'Download Expense Report'} linkTo={'/download'} textDescription={"Expense Reports"} open={isOpen} isTitle={false}>
-          <MotionDownload layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2.5vw"}}/>
+          <MotionDownload layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2vw"}}/>
         </NavItem>
         <NavItem imageAlt={"Pathfind"} linkTo={"/pathfind"} textDescription={"Navigate"} open={isOpen} isTitle={false}>
-          <MotionPathfind layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2.5vw"}}/>
+          <MotionPathfind layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2vw"}}/>
         </NavItem>
         <NavItem imageAlt={"My Trips"} linkTo={"/myTrips"} textDescription={"My Trips"} open={isOpen} isTitle={false}>
-          <MotionTrips layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2.5vw"}}/>
+          <MotionTrips layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2vw"}}/>
         </NavItem>
         <div className="navbarLayoutClose"  onClick={isOpen? () => setOpen(false):() => setOpen(true)} >
           <div className="iconAndTitleContainer">
-            {isOpen? <MotionClose layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2.5vw"}}/>
-              : <MotionOpen layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2.5vw"}}/>}
+            {isOpen? <MotionClose layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2vw"}}/>
+              : <MotionOpen layout className={isOpen? "iconOpen":"iconClose"}  sx={{fontSize:"2vw"}}/>}
             {isOpen && <motion.h1 layout className="titleText">Collapse</motion.h1>}
           </div>
         </div>
       </div>
-
-
     </motion.nav>
 
   );
