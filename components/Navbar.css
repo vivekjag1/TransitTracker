@@ -51,6 +51,7 @@
 .iconAndTitleContainer{
     display: flex;
     flex-direction: row;
+    place-items: center;
     padding-left: .5vw;
     padding-right: .5vw;
     width: 100%;
@@ -69,16 +70,25 @@
 }
 .titleText{
     font-family: monospace;
-    font-size: xx-large;
+    font-size: 1.3vw;
     font-weight: bolder;
     color: white;
 }
+.navText{
+    font-family: monospace;
+    font-size: 1.3vw;
+    color:white;
+    font-weight: bolder;
+}
 .iconOpen{
-    width: 2vw;
+    width: 3vw;
     margin-right:.5vw;
+    color:white;
 }
 .iconClose{
-    width:2vw;
+    width: 3vw;
+    margin-right:.5vw;
+    color:white;
 }
 .divider{
     margin-top: 2vh;
