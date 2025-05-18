@@ -1,16 +1,9 @@
 "use client";
 import './Navbar.css'
 import {useState} from "react";
-import "../public/icon.svg";
-import notes from "../public/notes-icon.svg"
 import icon from '../public/icon-better.svg';
-import download from "../public/download-icon.svg"
-import pathfind from "../public/pathfind-icon.svg"
 import NavItem from "@/components/NavItem";
-import trips from "../public/my-trips.svg";
-import close from "../public/collapse.svg"
 import Image from "next/image";
-import expand from "../public/expand.svg";
 import {motion} from 'framer-motion';
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
