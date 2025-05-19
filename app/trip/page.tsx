@@ -10,6 +10,7 @@ import './styles.css';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import {useEffect, useState} from "react";
+import ToolBar from "@/components/ToolBar";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -20,11 +21,7 @@ const Trip = () =>{
   return(
     <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY!}>
       <div className="parentContainer">
-        {/*<div className = "leftPane">*/}
-        {/*  <div className="saveTripWindow">*/}
-        {/*    <h1 className="saveTripText">Log New Trip</h1>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
+        <ToolBar/>
         <div className="mapViewer">
         <Map defaultZoom={9} defaultCenter={{lat: 51.5072, lng: 0.1276}} fullscreenControl={false}/>
         <Directions/>
