@@ -14,15 +14,19 @@ export default function Home() {
   const imageArr = [plane, tubeMap, train ]
   const [currIndex, setCurrIndex] = useState<number>(0);
   return (
-    <a href="/test">
+    <a href="/trip">
       <div className = "heroParent">
-        <div className = "leftTextPane">
-          <h1 className = "title"> Transit Tracker</h1>
+        <div className="leftTextPane">
+          <h1 className="title"> Transit Tracker</h1>
           <h1 className="subtitle">
             <div className="typographyContainer">
-              <TypeAnimation preRenderFirstString={true} repeat={Number.POSITIVE_INFINITY} sequence={[()=>setCurrIndex(0), "Keep Track of Your Trips on Planes", 3500, () => setCurrIndex(1), 'Keep Track of Your Trips on Public Transit', 3500, () => setCurrIndex(2),'Keep Track of Your Trips on Trains', 3500]} />
+              <TypeAnimation preRenderFirstString={true} repeat={Number.POSITIVE_INFINITY}
+                             sequence={[() => setCurrIndex(0), "Keep Track of Your Trips on Planes", 3500, () => setCurrIndex(1), 'Keep Track of Your Trips on Public Transit', 3500, () => setCurrIndex(2), 'Keep Track of Your Trips on Trains', 3500]}/>
             </div>
+
           </h1>
+          <h1 className="thirdTitle"> Click anywhere to Get Started</h1>
+
         </div>
         <div className="rightPaneHero">
           {imageArr.map((image, index) => {
