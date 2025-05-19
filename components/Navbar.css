@@ -1,6 +1,6 @@
 .navbarContainerClosed{
-    position: sticky; /*navbar will stick if scrolled beyond */
     top: 0;
+    left: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -15,8 +15,8 @@
     border-radius: 0 1vw 1vw 0;
 }
 .navbarContainerOpen{
-    position: sticky; /*navbar will stick if scrolled beyond */
     top: 0;
+    left: 0;
     height: 100vh;
     display: flex;
     flex-direction: column;

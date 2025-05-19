@@ -86,3 +86,10 @@
     font-size: 1.3vw;
     font-weight: bold;
 }
+
+.mainLayout{
+    height: 100vh;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+}

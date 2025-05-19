@@ -1,6 +1,6 @@
 const Trip = () =>{
   return(
-    <div></div>
+    <div className="test">testing </div>
   );
 }
 export default Trip;
