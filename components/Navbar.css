@@ -23,11 +23,13 @@
     place-items: center;
     align-items: center;
     background-color: darkblue;
-    width: 20rem;
+    width: fit-content;
     flex-shrink: 0;
     cursor: pointer;
     justify-content: space-between;
     border-radius: 0 1vw 1vw 0;
+    padding-left: 1vw;
+    padding-right: 1vw;;
 }
 .navbarLayout{
     display: flex;
