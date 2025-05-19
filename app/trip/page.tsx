@@ -20,11 +20,11 @@ const Trip = () =>{
   return(
     <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY!}>
       <div className="parentContainer">
-        <div className = "leftPane">
-          <div className="saveTripWindow">
-            <h1 className="saveTripText">Log New Trip</h1>
-          </div>
-        </div>
+        {/*<div className = "leftPane">*/}
+        {/*  <div className="saveTripWindow">*/}
+        {/*    <h1 className="saveTripText">Log New Trip</h1>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
         <div className="mapViewer">
         <Map defaultZoom={9} defaultCenter={{lat: 51.5072, lng: 0.1276}} fullscreenControl={false}/>
         <Directions/>
