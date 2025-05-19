@@ -23,7 +23,7 @@
     margin-right: .5vw;
 }
 .toolbarIcon:hover{
-    color: lightslategrey;
+    color: red;
     margin-left: .5vw;
     margin-right: .5vw;
 }
