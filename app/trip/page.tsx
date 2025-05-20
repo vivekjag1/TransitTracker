@@ -18,18 +18,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import AssistantNavigationIcon from '@mui/icons-material/AssistantNavigation';
-
-
-
-import Script from "next/script";
-import {string} from "prop-types";
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
     googleMapsApiKey:process.env.NEXT_PUBLIC_MAPS_API_KEY!,
     libraries:["places"]
   });
   if (!isLoaded) return <div>Loading...</div>;
-  console.log(process.env.NEXT_PUBLIC_MAPS_API_KEY);
   return(
     <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY!}>
       <div className="parentContainer">
@@ -69,7 +63,6 @@ const PathfindingCard = () =>{
     //set state variables for service and renderer
     setDirectionsService(new routesLibrary.DirectionsService());
     setDirectionsRenderer(new routesLibrary.DirectionsRenderer({map}));
-    console.log("directions service set");
   }, [routesLibrary, map]); //initialize services
   useEffect(() =>{
     if(!directionsRenderer || !directionsService){
@@ -78,7 +71,6 @@ const PathfindingCard = () =>{
     if(!start || !end ){
       return;
     }
-    console.log("ROUTES ARE", end);
     directionsService.route({
       origin:start,
       destination:end,
@@ -87,23 +79,26 @@ const PathfindingCard = () =>{
     }).then(res =>{
       directionsRenderer.setDirections(res);
       setRoutes(res.routes);
-      console.log(routes);
-
+    }).catch((e:google.maps.MapsRequestError) =>{
+      console.log("No such path exists!"); //will eventually be a toast ;()
     })
   }, [start, end, directionsService, directionsRenderer]);
 
 
   const handleSubmit = () =>{
-    console.log("TESTING", startLocationTemp, endLocationTemp);
+    if(!startLocationTemp || !endLocationTemp){
+      return;
+    }
     setStart(startLocationTemp);
     setEnd(endLocationTemp);
+
   }
 
 
   return(
     <div className="pathfindingCardWrapper">
-      <Autocomplete onChange={(event, value) => setStartLocationTemp(value!.description)} filterOptions={(x)=>x} className="placeSelector" onInputChange={(event, value) => setValue(value)} renderInput={(params) => <TextField {...params} label="Origin"  onChange={(e) => setStartLocationTemp(e.target.value)}/>} options={data} getOptionLabel={(option) => typeof option === 'string'? option:option.description} />
-      <Autocomplete onChange={(event, value) => setEndLocationTemp(value!.description)} filterOptions={(x) => x} onInputChange={(event, value) => setValue(value)}  className = "placeSelector" renderInput={(params) => <TextField {...params} label="Destination" onChange={(e) => setEndLocationTemp(e.target.value)}/>} disablePortal options={data}  getOptionLabel={(option) => typeof option === 'string'? option:option.description}/>
+      <Autocomplete onChange={(event, value) => setStartLocationTemp(value?value!.description:startLocationTemp)} filterOptions={(x)=>x} className="placeSelector" onInputChange={(event, value) => setValue(value)} renderInput={(params) => <TextField {...params} label="Origin"  onChange={(e) => setStartLocationTemp(e.target.value)}/>} options={data} getOptionLabel={(option) => typeof option === 'string'? option:option.description} />
+      <Autocomplete onChange={(event, value) => setEndLocationTemp(value?value!.description:startLocationTemp)} filterOptions={(x) => x} onInputChange={(event, value) => setValue(value)}  className = "placeSelector" renderInput={(params) => <TextField {...params} label="Destination" onChange={(e) => setEndLocationTemp(e.target.value)}/>} disablePortal options={data}  getOptionLabel={(option) => typeof option === 'string'? option:option.description}/>
       <div className = "buttonContainer">
         <Button className = "pathfindingButton" variant="contained" sx={{backgroundColor:'darkblue'}} onClick={handleSubmit}>
           <div className = "buttonContent">
