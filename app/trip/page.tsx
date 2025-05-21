@@ -24,7 +24,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import AutocompletePrediction = google.maps.places.AutocompletePrediction;
 import Tooltip from '@mui/material/Tooltip';
-
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
     googleMapsApiKey:process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -60,7 +60,7 @@ const PathfindingCard = () =>{
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
   const [cleared, setCleared] = useState<boolean>(false);
   const [routeIndex, setRouteIndex] = useState<number>(0);
-
+  const [directionsAvailable, setDirectionsAvailable] = useState<boolean>(false);
   //google maps hooks
   const map = useMap();//hook returns instance of a map and renders directions
   const routesLibrary = useMapsLibrary("routes"); //loads routes
@@ -101,12 +101,19 @@ const PathfindingCard = () =>{
       provideRouteAlternatives:true,
     }).then(res =>{
       directionsRenderer.setDirections(res);
+      console.log("RES IS", res);
       setRoutes(res.routes);
+      setDirectionsAvailable(true);
 
     }).catch((e:google.maps.MapsRequestError) =>{
       console.log("No such path exists!"); //will eventually be a toast ;()
     })
   }
+
+  const findTime = () => Math.round(((routes[0]?.legs[0]?.duration?.value) as number) / 60)
+
+
+  useEffect(() => console.log(routes), [routes]);
 
   return(
     <div className="pathfindingCardWrapper">
@@ -132,7 +139,6 @@ const PathfindingCard = () =>{
           <SwapVertIcon className="swapIcon" sx={{fontSize: "4vh", color: "darkblue"}} />
 
         </Tooltip>
-
         <div className="iconAutocompleteContainer">
           <FlagIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
           <Autocomplete
@@ -167,7 +173,33 @@ const PathfindingCard = () =>{
               <p>Navigate</p>
             </div>
           </Button>
+
         </div>
+        {directionsAvailable && <div className="infoWindow">
+          <div className="resultsWindow">
+            <div className="statsWindow">
+              <div className="statContainer">
+                <h1 className="statText">{findTime()}</h1>
+                <h2 className="statSubtext">Minutes</h2>
+              </div>
+              <div className="statContainer">
+                <h1 className="statText">{routes[0]?.fare?.value}</h1>
+                <h2 className="statSubtext">{routes[0]?.fare?.currency}</h2>
+              </div>
+              <div className="statContainer">
+                <h1 className="statText">{routes[0]?.legs[0]?.arrival_time?.text}</h1>
+                <h2 className="statSubtext">{routes[0]?.legs[0]?.arrival_time?.time_zone.replace('_', ' ')}</h2>
+              </div>
+            </div>
+            <div className = "expandIcon">
+              <KeyboardArrowDownIcon sx={{color:"black", fontSize:"4vh"}}/>
+
+            </div>
+
+
+          </div>
+
+        </div>}
       </div>
     </div>
 

@@ -9,7 +9,6 @@
     border-radius: .5vw .5vw .5vw 1vw ;
     z-index: 2;
     margin-left: .5vw;
-    margin-right: 1vw;
     margin-top: 1vh;
 
     /*align-items: center;*/
@@ -59,16 +58,82 @@
     margin-left: 1vw;
 }
 
-.clearButton{
-    place-self: end;
-}
-
 
 .swapIcon{
     margin-left: 1vw;
     margin-top: 1vh;
     margin-bottom:1vh;
+    position: relative;
+    right: 0;
+    justify-self: center;
 
+}
+.infoWindow{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 
+.resultsWindow{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1vh;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    background-color: lightslategrey;
+    border-radius: 1vw 1vw 1vw;
+    width: 90%;
+
+}
+
+.statsWindow{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.statText{
+    color: white;
+    font-size: 3.5vh;
+}
+
+.statContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1vw;
+
+
+}
+.statSubtext{
+    text-align:center;
+    color:white;
+}
+
+.expandIcon{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    width: fit-content;
+    background-color: white;
+    border-radius: 50%;
+    margin-top:1vh;
+    margin-bottom: 1vh;
+
+
+}
+
+.expandIcon:hover{
+    cursor: pointer;
+    text-shadow:  2vw 2vw red;
+
+
+}
