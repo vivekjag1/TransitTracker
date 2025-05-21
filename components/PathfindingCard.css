@@ -10,15 +10,16 @@
     z-index: 2;
     margin-left: .5vw;
     margin-right: 1vw;
+    margin-top: 1vh;
     /*align-items: center;*/
 }
 
 .placeSelector{
-    margin-top: 2.5vh;
     place-items: end;
     margin-right: 1vw;
     margin-left:1vw;
-    width: 15vw;
+    width: 20vw;
+
 
 }
 .buttonContainer{
@@ -42,5 +43,14 @@
 
 .buttonIcon{
     margin-right: .5vw;
+}
+.iconAutocompleteContainer{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2.5vh;
+    margin-left: 1vw;
 
 }
+
