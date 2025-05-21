@@ -12,7 +12,6 @@
     cursor: pointer;
     padding-left: 1vw;
     padding-right: 1vw;
-    border-radius: 0 1vw 1vw 0;
 }
 .navbarContainerOpen{
     top: 0;
@@ -27,7 +26,6 @@
     flex-shrink: 0;
     cursor: pointer;
     justify-content: space-between;
-    border-radius: 0 1vw 1vw 0;
     padding-left: 1vw;
     padding-right: 1vw;;
 }

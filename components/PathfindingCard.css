@@ -26,12 +26,13 @@
     margin-top: 1vh;
     display: flex;
     flex-direction: row;
-    justify-content: end;
     margin-right: 1vw;
+    justify-content: space-between;
+    margin-left: 1vw;
 }
 .pathfindingButton{
     width: fit-content;
-    align-self: end;
+    place-self: end;
 }
 
 .buttonContent{
@@ -51,6 +52,11 @@
     justify-content: center;
     margin-top: 2.5vh;
     margin-left: 1vw;
-
 }
+
+.clearButton{
+    place-self: end;
+}
+
+
 
