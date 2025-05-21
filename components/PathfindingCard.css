@@ -3,7 +3,7 @@
     top: 0;
     display: flex;
     flex-direction: column;
-    height: 25vh;
+    height: fit-content;
     width: fit-content;
     background-color: white;
     border-radius: .5vw .5vw .5vw 1vw ;
@@ -11,7 +11,13 @@
     margin-left: .5vw;
     margin-right: 1vw;
     margin-top: 1vh;
+
     /*align-items: center;*/
+}
+
+.pathfindingCardContent{
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
 }
 
 .placeSelector{
@@ -50,7 +56,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: 2.5vh;
     margin-left: 1vw;
 }
 
@@ -58,5 +63,12 @@
     place-self: end;
 }
 
+
+.swapIcon{
+    margin-left: 1vw;
+    margin-top: 1vh;
+    margin-bottom:1vh;
+
+}
 
 

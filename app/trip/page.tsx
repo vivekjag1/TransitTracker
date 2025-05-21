@@ -21,8 +21,10 @@ import AssistantNavigationIcon from '@mui/icons-material/AssistantNavigation';
 import ShareLocationIcon from '@mui/icons-material/ShareLocation';
 import FlagIcon from '@mui/icons-material/Flag';
 import ClearIcon from '@mui/icons-material/Clear';
-import {set} from "@firebase/database";
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import AutocompletePrediction = google.maps.places.AutocompletePrediction;
+import Tooltip from '@mui/material/Tooltip';
+
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
     googleMapsApiKey:process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -73,6 +75,16 @@ const PathfindingCard = () =>{
     setDirectionsRenderer(new routesLibrary.DirectionsRenderer({map}));
   }, [routesLibrary, map]); //initialize services
 
+  const handleSwap = () =>{
+    console.log("running!");
+    const oldStart = currentValueStart;
+    const oldEnd = currentValueDestination;
+    setCurrentValueStart(oldEnd);
+    setCurrentValueDestination(oldStart);
+    console.log(currentValueStart);
+
+  }
+
 
   //updates state
   const handleSubmit = () =>{
@@ -98,56 +110,68 @@ const PathfindingCard = () =>{
 
   return(
     <div className="pathfindingCardWrapper">
-      <div className = "iconAutocompleteContainer">
-        <ShareLocationIcon sx={{fontSize:"4vh",  color:"darkblue"}}/>
-        <Autocomplete
-          value={currentValueStart}
-          onChange={(event, value) => {
-            setCurrentValueStart(value?value:null);
-            setStart(value?value!.description:'');
-          }}
-          filterOptions={(x) => x}
-          onInputChange={(event, value) => setValue(value)}
-          className = "placeSelector"
-          renderInput={(params) => <TextField  {...params} label="Origin"
-                                               onChange={(e) => setStart(e.target.value)}/>} disablePortal options={data}
-          getOptionLabel={(option) => typeof option === 'string'? option:option.description}
-        />
-      </div>
-      <div className="iconAutocompleteContainer">
-        <FlagIcon sx={{fontSize:"4vh", color:"darkblue"}}/>
-        <Autocomplete
-          value={currentValueDestination}
-          onChange={(event, value) => {
-            setCurrentValueDestination(value?value:null);
-            setEnd(value?value!.description:'');
-          }}
-          filterOptions={(x) => x}
-          onInputChange={(event, value) => setValue(value)}
-          className = "placeSelector"
-          renderInput={(params) => <TextField  {...params} label="Destination"
-                                               onChange={(e) => setEnd(e.target.value)}/>} disablePortal options={data}
-          getOptionLabel={(option) => typeof option === 'string'? option:option.description}
-        />
-      </div>
-      <div className = "buttonContainer">
-        <Button className = "clearButton" variant="contained" sx={{backgroundColor:'darkblue'}} onClick={() =>{
-          setCurrentValueDestination(null);
-          setCurrentValueStart(null);
-        }}>
-          <div className = "buttonContent">
-            <ClearIcon className = "buttonIcon"/>
-            <p>Clear</p>
-          </div>
-        </Button>
-        <Button className = "pathfindingButton" variant="contained" sx={{backgroundColor:'darkblue'}} onClick={handleSubmit}>
-          <div className = "buttonContent">
-            <AssistantNavigationIcon className = "buttonIcon"/>
-            <p>Navigate</p>
-          </div>
-        </Button>
+      <div className="pathfindingCardContent">
+        <div className="iconAutocompleteContainer">
+          <ShareLocationIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
+          <Autocomplete
+            value={currentValueStart}
+            onChange={(event, value) => {
+              setCurrentValueStart(value ? value : null);
+              setStart(value ? value!.description : '');
+            }}
+            filterOptions={(x) => x}
+            onInputChange={(event, value) => setValue(value)}
+            className="placeSelector"
+            renderInput={(params) => <TextField  {...params} label="Origin"
+                                                 onChange={(e) => setStart(e.target.value)}/>} disablePortal
+            options={data}
+            getOptionLabel={(option) => typeof option === 'string' ? option : option.description}
+          />
+        </div>
+        <Tooltip title={"Swap Locations"} onClick={handleSwap}>
+          <SwapVertIcon className="swapIcon" sx={{fontSize: "4vh", color: "darkblue"}} />
+
+        </Tooltip>
+
+        <div className="iconAutocompleteContainer">
+          <FlagIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
+          <Autocomplete
+            value={currentValueDestination}
+            onChange={(event, value) => {
+              setCurrentValueDestination(value ? value : null);
+              setEnd(value ? value!.description : '');
+            }}
+            filterOptions={(x) => x}
+            onInputChange={(event, value) => setValue(value)}
+            className="placeSelector"
+            renderInput={(params) => <TextField  {...params} label="Destination"
+                                                 onChange={(e) => setEnd(e.target.value)}/>} disablePortal
+            options={data}
+            getOptionLabel={(option) => typeof option === 'string' ? option : option.description}
+          />
+        </div>
+        <div className="buttonContainer">
+          <Button className="clearButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={() => {
+            setCurrentValueDestination(null);
+            setCurrentValueStart(null);
+          }}>
+            <div className="buttonContent">
+              <ClearIcon className="buttonIcon"/>
+              <p>Clear</p>
+            </div>
+          </Button>
+          <Button className="pathfindingButton" variant="contained" sx={{backgroundColor: 'darkblue'}}
+                  onClick={handleSubmit}>
+            <div className="buttonContent">
+              <AssistantNavigationIcon className="buttonIcon"/>
+              <p>Navigate</p>
+            </div>
+          </Button>
+        </div>
       </div>
     </div>
+
+
   )
 }
 
