@@ -1,3 +1,0 @@
-interface SaveTripModalProps{
-  open:boolean;
-}

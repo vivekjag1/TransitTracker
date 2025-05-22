@@ -2,14 +2,10 @@
 import {
   APIProvider,
   Map,
-  AdvancedMarker,
-  Pin,
-  InfoWindow, useMap, useMapsLibrary,
+   useMap, useMapsLibrary,
 } from "@vis.gl/react-google-maps";
-import {GoogleMap, useLoadScript, Marker} from '@react-google-maps/api';
+import {useLoadScript} from '@react-google-maps/api';
 import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
 } from "use-places-autocomplete";
 import './styles.css';
 import '../../components/PathfindingCard.css'
@@ -30,8 +26,10 @@ import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import {motion} from "framer-motion";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import SaveIcon from '@mui/icons-material/Save';
-import EmailIcon from '@mui/icons-material/Email';
 import {DownloadIcon} from "lucide-react";
+import React, { useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
+
 
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
@@ -52,22 +50,22 @@ const Trip = () =>{
   );
 }
 const PathfindingCard = () =>{
-  const {ready, value, setValue, suggestions:{status, data}, clearSuggestions} = usePlacesAutocomplete({debounce:300});
 
+  const { setValue, suggestions:{ data}} = usePlacesAutocomplete({debounce:300});
   //holds starting and ending destinations
   const [start, setStart] = useState<string>();
   const [end, setEnd] = useState<string>();
   const [currentValueStart, setCurrentValueStart] = useState<AutocompletePrediction|null>(null);
   const[currentValueDestination, setCurrentValueDestination] = useState<AutocompletePrediction|null>(null);
-
+  const compRef = useRef(null);
   //google maps services
   const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService>();
   const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer>();
 
   //selected routes TODO: replace with cost, transfer optimization
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  const [cleared, setCleared] = useState<boolean>(false);
-  const [routeIndex, setRouteIndex] = useState<number>(0);
+  // const [cleared, setCleared] = useState<boolean>(false);
+  // const [routeIndex, setRouteIndex] = useState<number>(0);
   const [directionsAvailable, setDirectionsAvailable] = useState<boolean>(false);
 
   const [expanded, setExpanded] = useState<boolean>(false);
@@ -85,9 +83,7 @@ const PathfindingCard = () =>{
     setDirectionsRenderer(new routesLibrary.DirectionsRenderer({map}));
   }, [routesLibrary, map]); //initialize services
 
-  const handlePDF = () => {
-    const element = document.getElementById('textDirections');
-  }
+
   const handleSwap = () =>{
     const oldStart = currentValueStart;
     const oldEnd = currentValueDestination;
@@ -127,6 +123,7 @@ const PathfindingCard = () =>{
 
     }).catch((e:google.maps.MapsRequestError) =>{
       alert("No such path exists!"); //replace with toast eventually
+      console.log(e);
     })
   }
 
@@ -136,14 +133,20 @@ const PathfindingCard = () =>{
   useEffect(() => {
     if (routes.length == 0) return;
     fetchTextualDirections();
-  }, [routes]);
+  }, [routes, fetchTextualDirections]);
+
+  const handlePrint = useReactToPrint({
+    contentRef: compRef,
+    documentTitle: "directions"
+  });
+
 
   const MotionSwap = motion.create(SwapVertIcon);
   const MotionUp = motion.create(KeyboardArrowUpIcon);
   const MotionDown = motion.create(KeyboardArrowDownIcon);
   const MotionButton = motion.create(Button);
   return(
-    <div  className="pathfindingCardWrapper">
+    <div  className="pathfindingCardWrapper" ref={compRef}>
       <motion.div className="pathfindingCardContent">
         <motion.div layout className="iconAutocompleteContainer">
           <ShareLocationIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
@@ -202,7 +205,7 @@ const PathfindingCard = () =>{
           </Button>
 
         </motion.div>
-        {directionsAvailable && <motion.div className="infoWindow">
+        {directionsAvailable && <motion.div className="infoWindow" >
           <motion.div  transition={{duration:.3}} layout className="resultsWindow">
             <motion.div layout className="statsWindow">
               <div className="statContainer">
@@ -235,7 +238,7 @@ const PathfindingCard = () =>{
                     )
                   })}
             </motion.div>
-              <div className = "textDirections">
+              <div className = "textDirections" >
                 {fetchTextualDirections().map((item, index) => {
                     if (item.type === 'WALKING') {
                       return (
@@ -266,7 +269,7 @@ const PathfindingCard = () =>{
                       <p>Save Trip </p>
                     </div>
                   </MotionButton>
-                  <MotionButton layout initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.4 }}  className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={handlePDF}>
+                  <MotionButton layout initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.4 }}  className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={handlePrint}>
                     <div className="buttonContent">
                       <DownloadIcon className="buttonIcon"/>
                       <p>Download Directions</p>
