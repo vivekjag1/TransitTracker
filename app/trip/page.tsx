@@ -229,7 +229,7 @@ const PathfindingCard = () =>{
               <motion.div layout initial={{opacity:0}} animate={{opacity:1}} className="routeOverview">{
                 fetchTextualDirections().map((item, index)=>{
                     return(
-                      <div>
+
                         <motion.div layout className="routeOverview" key={index}>
                           {item.type === "WALKING" ?
                             <DirectionsWalkIcon  sx={{color: "white", fontSize: "1.5vw"}}/> : (item.icon? <motion.img layout  alt="transit" src={item.icon}/>:<DirectionsBusIcon sx={{color: "white", fontSize: "1.5vw"}}/>)}
@@ -238,7 +238,6 @@ const PathfindingCard = () =>{
                             <DoubleArrowIcon sx={{color: "white"}}/>}
                         </motion.div>
 
-                      </div>
 
                     )
                 })}
@@ -273,18 +272,18 @@ const PathfindingCard = () =>{
             </motion.div>}
             {expanded &&
               <motion.div layout className = "saveButtonContainer">
-                   <MotionButton layout initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.4}} className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue', marginRight:"1vw"}}>
+                   <Button   className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue', marginRight:"1vw"}}>
                     <div className="buttonContent">
                       <SaveIcon className="buttonIcon"/>
                       <p>Save Trip </p>
                     </div>
-                  </MotionButton>
-                  <MotionButton layout initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.4 }}  className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={handlePrint}>
+                  </Button>
+                  <Button   className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={handlePrint}>
                     <div className="buttonContent">
                       <DownloadIcon className="buttonIcon"/>
                       <p>Download Directions</p>
                     </div>
-                  </MotionButton>
+                  </Button>
               </motion.div>
             }
           </motion.div>
