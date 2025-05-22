@@ -1,0 +1,38 @@
+.parentContainer{
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+.mapViewer{
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+}
+
+.leftPane{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 30vw;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.saveTripWindow{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 95%;
+    width: 90%;
+    background-color: lightslategrey;
+    border-radius: 1vw 1vw 1vw 1vw ;
+}
+
+.saveTripText{
+    font-family: monospace;
+    font-weight: bolder;
+    font-size: 2rem;
+    padding-top: 1vh;
+}
+

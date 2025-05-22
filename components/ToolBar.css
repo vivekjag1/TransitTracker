@@ -1,0 +1,35 @@
+.toolbarWrapper{
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    height: 5vh;
+    width: fit-content;
+    background-color: darkblue;
+    z-index: 1000;
+    margin-top: 6vh;
+    border-radius: 1vw 1vw 1vw 1vw;
+}
+.iconContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+.toolbarIcon{
+    color: white;
+    margin-left: .5vw;
+    margin-right: .5vw;
+}
+.toolbarIcon:hover{
+    color: red;
+    margin-left: .5vw;
+    margin-right: .5vw;
+}
+
+.toolbarDivider{
+    color:white;
+    height: 100%;
+    width: 50%
+}
