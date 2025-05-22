@@ -27,7 +27,8 @@ import Tooltip from '@mui/material/Tooltip';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
-import {white} from "next/dist/lib/picocolors";
+import {motion} from "framer-motion";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
     googleMapsApiKey:process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -92,28 +93,11 @@ const PathfindingCard = () =>{
   const fetchTextualDirections = () =>{
     return routes[0].legs[0].steps.map((step) => {
       if(step.travel_mode === "TRANSIT"){
-        return {type: "TRANSIT", step:`Board the ${step.transit?.line.name} via ${step.transit?.headsign} for ${step.transit?.num_stops} stops until ${step.transit?.arrival_stop.name}`, icon:routes[0]?.legs[0]?.steps[1]?.transit?.line?.vehicle.local_icon}
+        return {type: "TRANSIT", step:`Board the ${(step.transit?.line.name != undefined)? step.transit?.line.name:step.transit?.line.agencies![0]?.name }: ${step.transit?.headsign} for ${step.transit?.num_stops} stops until ${step.transit?.arrival_stop.name}`,
+          icon:  step?.transit?.line?.vehicle.local_icon}
       }
       return {type:"WALKING", step:step.instructions}
     });
-
-
-
-
-
-    //chosen route (for now)
-
-    // const icons = routes[0].legs[0].steps.map((step) => {
-    //   if (step.travel_mode === "TRANSIT") {
-    //     return step.transit?.line.icon
-    //   } else if (step.travel_mode === 'WALKING') {
-    //     return DirectionsWalkIcon;
-    //   }
-    // });
-    // return {directions:textDirections, icons:icons};
-
-
-
   }
 
   //updates state
@@ -131,26 +115,30 @@ const PathfindingCard = () =>{
       provideRouteAlternatives:true,
     }).then(res =>{
       directionsRenderer.setDirections(res);
+
       setRoutes(res.routes);
-      console.log("RES IS", routes);
-      fetchTextualDirections();
       setDirectionsAvailable(true);
 
     }).catch((e:google.maps.MapsRequestError) =>{
-      console.log("EXCEPTION", e);
-      alert("No such path exists!");
+      alert("No such path exists!"); //replace with toast eventually
     })
   }
 
   const findTime = () => Math.round(((routes[0]?.legs[0]?.duration?.value) as number) / 60)
 
 
-  useEffect(() => console.log(routes), [routes]);
+  useEffect(() => {
+    if (routes.length == 0) return;
+    fetchTextualDirections();
+  }, [routes]);
 
+  const MotionSwap = motion.create(SwapVertIcon);
+  const MotionUp = motion.create(KeyboardArrowUpIcon);
+  const MotionDown = motion.create(KeyboardArrowDownIcon);
   return(
-    <div className="pathfindingCardWrapper">
-      <div className="pathfindingCardContent">
-        <div className="iconAutocompleteContainer">
+    <motion.div layout className="pathfindingCardWrapper">
+      <motion.div layout className="pathfindingCardContent">
+        <motion.div layout className="iconAutocompleteContainer">
           <ShareLocationIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
           <Autocomplete
             value={currentValueStart}
@@ -166,12 +154,12 @@ const PathfindingCard = () =>{
             options={data}
             getOptionLabel={(option) => typeof option === 'string' ? option : option.description}
           />
-        </div>
+        </motion.div>
         <Tooltip title={"Swap Locations"} onClick={handleSwap}>
-          <SwapVertIcon className="swapIcon" sx={{fontSize: "4vh", color: "darkblue"}} />
+          <MotionSwap layout className="swapIcon" sx={{fontSize: "4vh", color: "darkblue"}} />
 
         </Tooltip>
-        <div className="iconAutocompleteContainer">
+        <motion.div layout className="iconAutocompleteContainer">
           <FlagIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
           <Autocomplete
             value={currentValueDestination}
@@ -187,8 +175,8 @@ const PathfindingCard = () =>{
             options={data}
             getOptionLabel={(option) => typeof option === 'string' ? option : option.description}
           />
-        </div>
-        <div className="buttonContainer">
+        </motion.div>
+        <motion.div layout  className="buttonContainer">
           <Button className="clearButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={() => {
             setCurrentValueDestination(null);
             setCurrentValueStart(null);
@@ -206,10 +194,10 @@ const PathfindingCard = () =>{
             </div>
           </Button>
 
-        </div>
-        {directionsAvailable && <div className="infoWindow">
-          <div className="resultsWindow">
-            <div className="statsWindow">
+        </motion.div>
+        {directionsAvailable && <motion.div className="infoWindow">
+          <motion.div layout className="resultsWindow">
+            <motion.div layout className="statsWindow">
               <div className="statContainer">
                 <h1 className="statText">{findTime()}</h1>
                 <h2 className="statSubtext">Minutes</h2>
@@ -222,53 +210,51 @@ const PathfindingCard = () =>{
                 <h1 className="statText">{routes[0]?.legs[0]?.arrival_time?.text}</h1>
                 <h2 className="statSubtext">{routes[0]?.legs[0]?.arrival_time?.time_zone.replace('_', ' ')}</h2>
               </div>
-            </div>
-            { <div className = "expandIcon" onClick={() => setExpanded(!expanded)}>
-              <KeyboardArrowDownIcon sx={{color:"black", fontSize:"4vh"}}/>
-            </div>}
-
-            {expanded && <div className = "expandedInfo">
-              <div className="routeOverview">{
+            </motion.div>
+            { <motion.div layout className = "expandIcon" onClick={() => setExpanded(!expanded)}>
+              {expanded? <MotionUp layout sx={{color: "black", fontSize: "4vh"}}/>: <MotionDown layout sx={{color: "black", fontSize: "4vh"}}/>}
+            </motion.div>}
+            {expanded && <motion.div layout className = "expandedInfo">
+              <motion.div className="routeOverview">{
                 fetchTextualDirections().map((item, index)=>{
                     return(
-                      <div className="routeOverview" key={index}>
-                        {item.type === "WALKING"? <DirectionsWalkIcon sx={{color: "white"}}/> :
-                          <img alt="transit"  src={item.icon}/>}
+                      <motion.div layout className="routeOverview" key={index}>
+                        {item.type === "WALKING"? <DirectionsWalkIcon className="breadcrumbIcon" sx={{color: "white", fontSize:"2vw"}}/> :
+                          <motion.img layout className="breadcrumbIcon" alt="transit"  src={item.icon}/>}
                         {index + 1 != fetchTextualDirections().length &&
                         <DoubleArrowIcon  sx={{color:"white", marginLeft:".5vw", marginRight:".5vw"}}/>}
-                      </div >
+                      </motion.div >
                     )
                   })}
-            </div>
-              {/*{fetchTextualDirections().map((item, index) => {*/}
-              {/*  if (item.type === 'WALKING') {*/}
-              {/*    return (*/}
-              {/*      <div key={index} className = "directionsContainer">*/}
-              {/*        <DirectionsWalkIcon sx={{color:"white"}}/>*/}
-              {/*        <h1>{item.step}</h1>*/}
-              {/*      </div>*/}
-              {/*    )*/}
-              {/*  } else {*/}
-              {/*    return (*/}
-              {/*      <div key={index} className = "directionsContainer">*/}
-              {/*        <img src={item.icon} alt="test"/>*/}
-              {/*        <h1>{item.step}</h1>*/}
-              {/*      </div>*/}
-              {/*    )*/}
-              {/*  }*/}
-              {/*}*/}
-              {/*  )*/}
-              {/*}*/}
+            </motion.div>
+              {fetchTextualDirections().map((item, index) => {
+                if (item.type === 'WALKING') {
+                  return (
+                    <motion.div layout key={index} className = "directionsContainer">
+                      <DirectionsWalkIcon className="directionsIcon" sx={{color:"white", fontSize:"2rem"}}/>
+                      <motion.h1 layout className="directionsText">{item.step}</motion.h1>
+                    </motion.div>
+                  )
+                } else {
+                  return (
+                    <motion.div layout key={index} className = "directionsContainer">
+                      <motion.img layout className="directionsIcon" src={item.icon} alt="test"/>
+                      <motion.h1 layout className="directionsText">{item.step}</motion.h1>
+                    </motion.div>
+                  )
+                }
+              }
+                )
+              }
 
 
 
-            </div>}
+            </motion.div>}
 
-          </div>
-
-        </div>}
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>}
+      </motion.div>
+    </motion.div>
 
 
   )

@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     height: fit-content;
-    width: fit-content;
+    width: 25vw;
     background-color: white;
     border-radius: .5vw .5vw .5vw 1vw ;
     z-index: 2;
@@ -94,6 +94,7 @@
     flex-direction:row;
     align-items: center;
     justify-content: center;
+    width: 90%;
 }
 
 
@@ -131,13 +132,25 @@
 
 .expandedInfo{
     margin-top:1vh;
+    width: 90%;
 }
 
 .directionsContainer{
+    color: white;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-bottom: 1vh;
     display: flex;
     flex-direction: row;
     align-items: center;
-    /*justify-content: center;*/
+    width: 100%;
+}
+
+.directionsText{
+    color:white;
+    width: 100%;
+    align-self: end;
+
 }
 
 .routeOverview{
@@ -145,4 +158,14 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin-bottom: 1vh;
+}
+
+.directionsIcon{
+    margin-right: 0.5vw;
+
+}
+
+.breadcrumbIcon{
+    color: white;
 }
