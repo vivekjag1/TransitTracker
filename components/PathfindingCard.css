@@ -3,15 +3,20 @@
     top: 0;
     display: flex;
     flex-direction: column;
-    height: 25vh;
-    width: fit-content;
+    height: fit-content;
+    width: 25vw;
     background-color: white;
-    border-radius: .5vw .5vw .5vw 1vw ;
+    border-radius: .5vw .5vw .5vw .5vw ;
     z-index: 2;
     margin-left: .5vw;
-    margin-right: 1vw;
     margin-top: 1vh;
+
     /*align-items: center;*/
+}
+
+.pathfindingCardContent{
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
 }
 
 .placeSelector{
@@ -26,13 +31,15 @@
     margin-top: 1vh;
     display: flex;
     flex-direction: row;
-    justify-content: end;
     margin-right: 1vw;
+    justify-content: space-between;
+    margin-left: 1vw;
 }
 .pathfindingButton{
     width: fit-content;
-    align-self: end;
+    place-self: end;
 }
+
 
 .buttonContent{
     display: flex;
@@ -49,8 +56,121 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: 2.5vh;
     margin-left: 1vw;
+}
+
+
+.swapIcon{
+    margin-left: 1vw;
+    margin-top: 1vh;
+    margin-bottom:1vh;
+    position: relative;
+    right: 0;
+    justify-self: center;
+
+}
+.infoWindow{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.resultsWindow{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1vh;
+    padding-top:1.5vh;
+    padding-bottom: 1.5vh;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    background-color: lightslategrey;
+    border-radius: 1vw 1vw 1vw;
+    width: 90%;
 
 }
 
+.statsWindow{
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+}
+
+
+.statText{
+    color: white;
+    font-size: 3.5vh;
+}
+
+.statContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1vw;
+
+
+}
+.statSubtext{
+    text-align:center;
+    color:white;
+}
+
+.expandIcon{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    width: fit-content;
+    background-color: white;
+    border-radius: 50%;
+    margin-top:1vh;
+    margin-bottom: 1vh;
+}
+
+.expandedInfo{
+    margin-top:1vh;
+    width: 90%;
+}
+
+.directionsContainer{
+    color: white;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-bottom: 1vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.directionsText{
+    color:white;
+    width: 100%;
+    align-self: end;
+
+}
+
+.routeOverview{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1vh;
+}
+
+.directionsIcon{
+    margin-right: 0.5vw;
+}
+
+.saveButtonContainer{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
