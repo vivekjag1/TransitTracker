@@ -13,7 +13,6 @@ interface NavItemProps{
 import Image from "next/image";
 import {motion} from "framer-motion";
 const NavItem = (props:NavItemProps) =>{
-  const AnimateImage = motion.create(Image);
   return (
     <motion.a layout className="navbarLayout" href={props.linkTo}>
       <motion.div layout className="iconAndTitleContainer">
