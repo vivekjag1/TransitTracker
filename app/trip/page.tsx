@@ -144,7 +144,6 @@ const PathfindingCard = () =>{
   const MotionSwap = motion.create(SwapVertIcon);
   const MotionUp = motion.create(KeyboardArrowUpIcon);
   const MotionDown = motion.create(KeyboardArrowDownIcon);
-  const MotionButton = motion.create(Button);
   return(
     <div  className="pathfindingCardWrapper" ref={compRef}>
       <motion.div className="pathfindingCardContent">
