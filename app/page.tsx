@@ -6,8 +6,8 @@ import train from "../public/train.jpg";
 import plane from "../public/plane.jpg";
 
 import { TypeAnimation } from 'react-type-animation';
-import {useEffect, useState} from "react";
-import {motion} from "framer-motion";
+import { useState} from "react";
+
 
 
 export default function Home() {
