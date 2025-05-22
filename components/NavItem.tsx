@@ -10,7 +10,6 @@ interface NavItemProps{
 }
 
 
-import Image from "next/image";
 import {motion} from "framer-motion";
 const NavItem = (props:NavItemProps) =>{
   return (

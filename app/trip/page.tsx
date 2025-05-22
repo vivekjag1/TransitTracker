@@ -4,7 +4,7 @@ import {
   Map,
    useMap, useMapsLibrary,
 } from "@vis.gl/react-google-maps";
-import {useLoadScript, Marker} from '@react-google-maps/api';
+import {useLoadScript} from '@react-google-maps/api';
 import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import './styles.css';
@@ -123,6 +123,7 @@ const PathfindingCard = () =>{
 
     }).catch((e:google.maps.MapsRequestError) =>{
       alert("No such path exists!"); //replace with toast eventually
+      console.log(e);
     })
   }
 
@@ -132,7 +133,7 @@ const PathfindingCard = () =>{
   useEffect(() => {
     if (routes.length == 0) return;
     fetchTextualDirections();
-  }, [routes]);
+  }, [routes, fetchTextualDirections]);
 
   const handlePrint = useReactToPrint({
     contentRef: compRef,
