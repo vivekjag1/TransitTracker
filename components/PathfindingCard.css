@@ -127,13 +127,22 @@
     border-radius: 50%;
     margin-top:1vh;
     margin-bottom: 1vh;
-
-
 }
 
-.expandIcon:hover{
-    cursor: pointer;
-    text-shadow:  2vw 2vw red;
+.expandedInfo{
+    margin-top:1vh;
+}
 
+.directionsContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /*justify-content: center;*/
+}
 
+.routeOverview{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }

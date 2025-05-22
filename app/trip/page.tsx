@@ -25,6 +25,9 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 import AutocompletePrediction = google.maps.places.AutocompletePrediction;
 import Tooltip from '@mui/material/Tooltip';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import {white} from "next/dist/lib/picocolors";
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
     googleMapsApiKey:process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -61,6 +64,8 @@ const PathfindingCard = () =>{
   const [cleared, setCleared] = useState<boolean>(false);
   const [routeIndex, setRouteIndex] = useState<number>(0);
   const [directionsAvailable, setDirectionsAvailable] = useState<boolean>(false);
+
+  const [expanded, setExpanded] = useState<boolean>(false);
   //google maps hooks
   const map = useMap();//hook returns instance of a map and renders directions
   const routesLibrary = useMapsLibrary("routes"); //loads routes
@@ -76,15 +81,40 @@ const PathfindingCard = () =>{
   }, [routesLibrary, map]); //initialize services
 
   const handleSwap = () =>{
-    console.log("running!");
     const oldStart = currentValueStart;
     const oldEnd = currentValueDestination;
     setCurrentValueStart(oldEnd);
     setCurrentValueDestination(oldStart);
-    console.log(currentValueStart);
 
   }
 
+  //creates textual directions
+  const fetchTextualDirections = () =>{
+    return routes[0].legs[0].steps.map((step) => {
+      if(step.travel_mode === "TRANSIT"){
+        return {type: "TRANSIT", step:`Board the ${step.transit?.line.name} via ${step.transit?.headsign} for ${step.transit?.num_stops} stops until ${step.transit?.arrival_stop.name}`, icon:routes[0]?.legs[0]?.steps[1]?.transit?.line?.vehicle.local_icon}
+      }
+      return {type:"WALKING", step:step.instructions}
+    });
+
+
+
+
+
+    //chosen route (for now)
+
+    // const icons = routes[0].legs[0].steps.map((step) => {
+    //   if (step.travel_mode === "TRANSIT") {
+    //     return step.transit?.line.icon
+    //   } else if (step.travel_mode === 'WALKING') {
+    //     return DirectionsWalkIcon;
+    //   }
+    // });
+    // return {directions:textDirections, icons:icons};
+
+
+
+  }
 
   //updates state
   const handleSubmit = () =>{
@@ -101,12 +131,14 @@ const PathfindingCard = () =>{
       provideRouteAlternatives:true,
     }).then(res =>{
       directionsRenderer.setDirections(res);
-      console.log("RES IS", res);
       setRoutes(res.routes);
+      console.log("RES IS", routes);
+      fetchTextualDirections();
       setDirectionsAvailable(true);
 
     }).catch((e:google.maps.MapsRequestError) =>{
-      console.log("No such path exists!"); //will eventually be a toast ;()
+      console.log("EXCEPTION", e);
+      alert("No such path exists!");
     })
   }
 
@@ -191,11 +223,46 @@ const PathfindingCard = () =>{
                 <h2 className="statSubtext">{routes[0]?.legs[0]?.arrival_time?.time_zone.replace('_', ' ')}</h2>
               </div>
             </div>
-            <div className = "expandIcon">
+            { <div className = "expandIcon" onClick={() => setExpanded(!expanded)}>
               <KeyboardArrowDownIcon sx={{color:"black", fontSize:"4vh"}}/>
+            </div>}
 
+            {expanded && <div className = "expandedInfo">
+              <div className="routeOverview">{
+                fetchTextualDirections().map((item, index)=>{
+                    return(
+                      <div className="routeOverview" key={index}>
+                        {item.type === "WALKING"? <DirectionsWalkIcon sx={{color: "white"}}/> :
+                          <img alt="transit"  src={item.icon}/>}
+                        {index + 1 != fetchTextualDirections().length &&
+                        <DoubleArrowIcon  sx={{color:"white", marginLeft:".5vw", marginRight:".5vw"}}/>}
+                      </div >
+                    )
+                  })}
             </div>
+              {/*{fetchTextualDirections().map((item, index) => {*/}
+              {/*  if (item.type === 'WALKING') {*/}
+              {/*    return (*/}
+              {/*      <div key={index} className = "directionsContainer">*/}
+              {/*        <DirectionsWalkIcon sx={{color:"white"}}/>*/}
+              {/*        <h1>{item.step}</h1>*/}
+              {/*      </div>*/}
+              {/*    )*/}
+              {/*  } else {*/}
+              {/*    return (*/}
+              {/*      <div key={index} className = "directionsContainer">*/}
+              {/*        <img src={item.icon} alt="test"/>*/}
+              {/*        <h1>{item.step}</h1>*/}
+              {/*      </div>*/}
+              {/*    )*/}
+              {/*  }*/}
+              {/*}*/}
+              {/*  )*/}
+              {/*}*/}
 
+
+
+            </div>}
 
           </div>
 
