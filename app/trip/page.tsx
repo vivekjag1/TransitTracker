@@ -29,6 +29,10 @@ import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import {motion} from "framer-motion";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import SaveIcon from '@mui/icons-material/Save';
+import EmailIcon from '@mui/icons-material/Email';
+import {DownloadIcon} from "lucide-react";
+
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
     googleMapsApiKey:process.env.NEXT_PUBLIC_MAPS_API_KEY!,
@@ -81,12 +85,14 @@ const PathfindingCard = () =>{
     setDirectionsRenderer(new routesLibrary.DirectionsRenderer({map}));
   }, [routesLibrary, map]); //initialize services
 
+  const handlePDF = () => {
+    const element = document.getElementById('textDirections');
+  }
   const handleSwap = () =>{
     const oldStart = currentValueStart;
     const oldEnd = currentValueDestination;
     setCurrentValueStart(oldEnd);
     setCurrentValueDestination(oldStart);
-
   }
 
   //creates textual directions
@@ -135,9 +141,10 @@ const PathfindingCard = () =>{
   const MotionSwap = motion.create(SwapVertIcon);
   const MotionUp = motion.create(KeyboardArrowUpIcon);
   const MotionDown = motion.create(KeyboardArrowDownIcon);
+  const MotionButton = motion.create(Button);
   return(
-    <motion.div layout className="pathfindingCardWrapper">
-      <motion.div layout className="pathfindingCardContent">
+    <div  className="pathfindingCardWrapper">
+      <motion.div className="pathfindingCardContent">
         <motion.div layout className="iconAutocompleteContainer">
           <ShareLocationIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
           <Autocomplete
@@ -196,7 +203,7 @@ const PathfindingCard = () =>{
 
         </motion.div>
         {directionsAvailable && <motion.div className="infoWindow">
-          <motion.div layout className="resultsWindow">
+          <motion.div  transition={{duration:.3}} layout className="resultsWindow">
             <motion.div layout className="statsWindow">
               <div className="statContainer">
                 <h1 className="statText">{findTime()}</h1>
@@ -211,11 +218,12 @@ const PathfindingCard = () =>{
                 <h2 className="statSubtext">{routes[0]?.legs[0]?.arrival_time?.time_zone.replace('_', ' ')}</h2>
               </div>
             </motion.div>
-            { <motion.div layout className = "expandIcon" onClick={() => setExpanded(!expanded)}>
-              {expanded? <MotionUp layout sx={{color: "black", fontSize: "4vh"}}/>: <MotionDown layout sx={{color: "black", fontSize: "4vh"}}/>}
+            {<motion.div layout className="expandIcon" onClick={() => setExpanded(!expanded)}>
+              {expanded ? <MotionUp layout sx={{color: "black", fontSize: "4vh"}}/> :
+                <MotionDown layout sx={{color: "black", fontSize: "4vh"}}/>}
             </motion.div>}
             {expanded && <motion.div layout className = "expandedInfo">
-              <motion.div className="routeOverview">{
+              <motion.div layout initial={{opacity:0}} animate={{opacity:1}} className="routeOverview">{
                 fetchTextualDirections().map((item, index)=>{
                     return(
                       <motion.div layout className="routeOverview" key={index}>
@@ -227,36 +235,49 @@ const PathfindingCard = () =>{
                     )
                   })}
             </motion.div>
-              {fetchTextualDirections().map((item, index) => {
-                if (item.type === 'WALKING') {
-                  return (
-                    <motion.div layout key={index} className = "directionsContainer">
-                      <DirectionsWalkIcon className="directionsIcon" sx={{color:"white", fontSize:"2rem"}}/>
-                      <motion.h1 layout className="directionsText">{item.step}</motion.h1>
-                    </motion.div>
-                  )
-                } else {
-                  return (
-                    <motion.div layout key={index} className = "directionsContainer">
-                      <motion.img layout className="directionsIcon" src={item.icon} alt="test"/>
-                      <motion.h1 layout className="directionsText">{item.step}</motion.h1>
-                    </motion.div>
-                  )
-                }
-              }
+              <div className = "textDirections">
+                {fetchTextualDirections().map((item, index) => {
+                    if (item.type === 'WALKING') {
+                      return (
+                        <motion.div layout initial={{opacity:0}} animate={{opacity:1}} key={index} className = "directionsContainer">
+                          <DirectionsWalkIcon className="directionsIcon" sx={{color:"white", fontSize:"2rem"}}/>
+                          <motion.h1 layout className="directionsText">{item.step}</motion.h1>
+                        </motion.div>
+                      )
+                    } else {
+                      return (
+                        <motion.div layout initial={{opacity:0}} animate={{opacity:1}} key={index} className = "directionsContainer">
+                          <motion.img layout className="directionsIcon" src={item.icon} alt="test"/>
+                          <motion.h1 layout className="directionsText">{item.step}</motion.h1>
+                        </motion.div>
+                      )
+                    }
+                  }
                 )
-              }
-
-
+                }
+              </div>
 
             </motion.div>}
-
+            {expanded &&
+              <motion.div layout className = "saveButtonContainer">
+                   <MotionButton layout initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.4}} className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue', marginRight:"1vw"}}>
+                    <div className="buttonContent">
+                      <SaveIcon className="buttonIcon"/>
+                      <p>Save Trip </p>
+                    </div>
+                  </MotionButton>
+                  <MotionButton layout initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.4 }}  className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={handlePDF}>
+                    <div className="buttonContent">
+                      <DownloadIcon className="buttonIcon"/>
+                      <p>Download Directions</p>
+                    </div>
+                  </MotionButton>
+              </motion.div>
+            }
           </motion.div>
         </motion.div>}
       </motion.div>
-    </motion.div>
-
-
+    </div>
   )
 }
 

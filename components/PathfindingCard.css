@@ -6,7 +6,7 @@
     height: fit-content;
     width: 25vw;
     background-color: white;
-    border-radius: .5vw .5vw .5vw 1vw ;
+    border-radius: .5vw .5vw .5vw .5vw ;
     z-index: 2;
     margin-left: .5vw;
     margin-top: 1vh;
@@ -39,6 +39,7 @@
     width: fit-content;
     place-self: end;
 }
+
 
 .buttonContent{
     display: flex;
@@ -80,6 +81,8 @@
     display: flex;
     flex-direction: column;
     margin-top: 1vh;
+    padding-top:1.5vh;
+    padding-bottom: 1.5vh;
     height: fit-content;
     align-items: center;
     justify-content: center;
@@ -163,9 +166,11 @@
 
 .directionsIcon{
     margin-right: 0.5vw;
-
 }
 
-.breadcrumbIcon{
-    color: white;
+.saveButtonContainer{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
