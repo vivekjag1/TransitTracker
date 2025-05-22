@@ -29,7 +29,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import {DownloadIcon} from "lucide-react";
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
-
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
@@ -229,28 +229,38 @@ const PathfindingCard = () =>{
               <motion.div layout initial={{opacity:0}} animate={{opacity:1}} className="routeOverview">{
                 fetchTextualDirections().map((item, index)=>{
                     return(
-                      <motion.div layout className="routeOverview" key={index}>
-                        {item.type === "WALKING"? <DirectionsWalkIcon className="breadcrumbIcon" sx={{color: "white", fontSize:"2vw"}}/> :
-                          <motion.img layout className="breadcrumbIcon" alt="transit"  src={item.icon}/>}
-                        {index + 1 != fetchTextualDirections().length &&
-                        <DoubleArrowIcon  sx={{color:"white", marginLeft:".25vw", marginRight:".25vw"}}/>}
-                      </motion.div >
+                      <div>
+                        <motion.div layout className="routeOverview" key={index}>
+                          {item.type === "WALKING" ?
+                            <DirectionsWalkIcon  sx={{color: "white", fontSize: "1.5vw"}}/> : (item.icon? <motion.img layout  alt="transit" src={item.icon}/>:<DirectionsBusIcon sx={{color: "white", fontSize: "1.5vw"}}/>)}
+
+                          {index + 1 != fetchTextualDirections().length &&
+                            <DoubleArrowIcon sx={{color: "white"}}/>}
+                        </motion.div>
+
+                      </div>
+
                     )
-                  })}
-            </motion.div>
-              <div className = "textDirections" >
+                })}
+
+              </motion.div>
+
+              <div className="textDirections">
                 {fetchTextualDirections().map((item, index) => {
-                    if (item.type === 'WALKING') {
-                      return (
-                        <motion.div layout initial={{opacity:0}} animate={{opacity:1}} key={index} className = "directionsContainer">
-                          <DirectionsWalkIcon className="directionsIcon" sx={{color:"white", fontSize:"2rem"}}/>
+                  if (item.type === 'WALKING') {
+                    return (
+                      <motion.div layout initial={{opacity: 0}} animate={{opacity: 1}} key={index}
+                                  className="directionsContainer">
+                        <DirectionsWalkIcon className="directionsIcon" sx={{color:"white", fontSize:"2rem"}}/>
                           <motion.h1 layout className="directionsText">{item.step}</motion.h1>
                         </motion.div>
                       )
                     } else {
                       return (
                         <motion.div layout initial={{opacity:0}} animate={{opacity:1}} key={index} className = "directionsContainer">
-                          <motion.img layout className="directionsIcon" src={item.icon} alt="test"/>
+
+                          {(item.icon ? <motion.img layout className="directionsIcon" src={item.icon} alt="test"/>: <DirectionsBusIcon className="directionsIcon" sx={{color:"white", fontSize:"2rem"}}/>)}
+
                           <motion.h1 layout className="directionsText">{item.step}</motion.h1>
                         </motion.div>
                       )
