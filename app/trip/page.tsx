@@ -233,7 +233,7 @@ const PathfindingCard = () =>{
                         {item.type === "WALKING"? <DirectionsWalkIcon className="breadcrumbIcon" sx={{color: "white", fontSize:"2vw"}}/> :
                           <motion.img layout className="breadcrumbIcon" alt="transit"  src={item.icon}/>}
                         {index + 1 != fetchTextualDirections().length &&
-                        <DoubleArrowIcon  sx={{color:"white", marginLeft:".5vw", marginRight:".5vw"}}/>}
+                        <DoubleArrowIcon  sx={{color:"white", marginLeft:".25vw", marginRight:".25vw"}}/>}
                       </motion.div >
                     )
                   })}
