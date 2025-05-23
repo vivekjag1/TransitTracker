@@ -5,8 +5,8 @@
     flex-direction: column;
     height: fit-content;
     max-height: 90vh;
+    /*width: fit-content;*/
     width: 30vw;
-    overflow-x: hidden;
     background-color: white;
     border-radius: .5vw .5vw .5vw .5vw ;
     z-index: 2;

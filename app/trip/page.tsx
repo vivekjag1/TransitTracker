@@ -146,8 +146,8 @@ const PathfindingCard = () =>{
   const MotionUp = motion.create(KeyboardArrowUpIcon);
   const MotionDown = motion.create(KeyboardArrowDownIcon);
   return(
-    <div  style={{overflowY: expanded? "auto":"hidden"}} className="pathfindingCardWrapper" ref={compRef}>
-      <motion.div className="pathfindingCardContent">
+    <div  style={ {overflowY: expanded? "auto": 'visible'}} className="pathfindingCardWrapper" ref={compRef}>
+      <motion.div className="pathfindingCardContent" style={{overflowX: expanded? "hidden":"visible"}}>
         <motion.div layout className="iconAutocompleteContainer">
           <ShareLocationIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
           <Autocomplete
