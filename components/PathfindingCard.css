@@ -1,20 +1,17 @@
 .pathfindingCardWrapper{
     position: absolute;
-
     top: 0;
     display: flex;
     flex-direction: column;
     height: fit-content;
     max-height: 90vh;
-    overflow-y: auto;
     width: 30vw;
+    overflow-x: hidden;
     background-color: white;
     border-radius: .5vw .5vw .5vw .5vw ;
     z-index: 2;
     margin-left: .5vw;
     margin-top: 1vh;
-
-    /*align-items: center;*/
 }
 
 .pathfindingCardContent{
@@ -143,14 +140,13 @@
 }
 
 .directionsContainer{
-    color: white;
     margin-left: 1vw;
     margin-right: 1vw;
     margin-bottom: 1vh;
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%;
+    width: 90%;
 }
 
 .directionsText{

@@ -73,6 +73,7 @@ const PathfindingCard = () =>{
   const map = useMap();//hook returns instance of a map and renders directions
   const routesLibrary = useMapsLibrary("routes"); //loads routes
 
+  const [scroll, setScroll] = useState<boolean>(false);
   //starts directions services, renders polyline
   useEffect(()=>{
     if(!routesLibrary || !map){
@@ -145,7 +146,7 @@ const PathfindingCard = () =>{
   const MotionUp = motion.create(KeyboardArrowUpIcon);
   const MotionDown = motion.create(KeyboardArrowDownIcon);
   return(
-    <div  className="pathfindingCardWrapper" ref={compRef}>
+    <div  style={{overflowY: expanded? "auto":"hidden"}} className="pathfindingCardWrapper" ref={compRef}>
       <motion.div className="pathfindingCardContent">
         <motion.div layout className="iconAutocompleteContainer">
           <ShareLocationIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
@@ -224,7 +225,7 @@ const PathfindingCard = () =>{
               {expanded ? <MotionUp layout sx={{color: "black", fontSize: "4vh"}}/> :
                 <MotionDown layout sx={{color: "black", fontSize: "4vh"}}/>}
             </motion.div>}
-            {expanded && <motion.div layout className = "expandedInfo">
+            {expanded && <motion.div layout style={{overflowX:"hidden", overflowY: scroll? "auto":"hidden"}} onAnimationStart={() => setScroll(false)} onAnimationComplete={() => setScroll(false)} className = "expandedInfo">
               <motion.div layout initial={{opacity:0}} animate={{opacity:1}} className="routeOverview">{
                 fetchTextualDirections().map((item, index)=>{
                     return(
