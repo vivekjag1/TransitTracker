@@ -29,7 +29,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import {DownloadIcon} from "lucide-react";
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
-
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
@@ -73,6 +73,7 @@ const PathfindingCard = () =>{
   const map = useMap();//hook returns instance of a map and renders directions
   const routesLibrary = useMapsLibrary("routes"); //loads routes
 
+  const [scroll, setScroll] = useState<boolean>(false);
   //starts directions services, renders polyline
   useEffect(()=>{
     if(!routesLibrary || !map){
@@ -144,10 +145,9 @@ const PathfindingCard = () =>{
   const MotionSwap = motion.create(SwapVertIcon);
   const MotionUp = motion.create(KeyboardArrowUpIcon);
   const MotionDown = motion.create(KeyboardArrowDownIcon);
-  const MotionButton = motion.create(Button);
   return(
-    <div  className="pathfindingCardWrapper" ref={compRef}>
-      <motion.div className="pathfindingCardContent">
+    <div  style={ {overflowY: expanded? "auto": 'visible'}} className="pathfindingCardWrapper" ref={compRef}>
+      <motion.div className="pathfindingCardContent" style={{overflowX: expanded? "hidden":"visible"}}>
         <motion.div layout className="iconAutocompleteContainer">
           <ShareLocationIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
           <Autocomplete
@@ -225,32 +225,41 @@ const PathfindingCard = () =>{
               {expanded ? <MotionUp layout sx={{color: "black", fontSize: "4vh"}}/> :
                 <MotionDown layout sx={{color: "black", fontSize: "4vh"}}/>}
             </motion.div>}
-            {expanded && <motion.div layout className = "expandedInfo">
+            {expanded && <motion.div layout style={{overflowX:"hidden", overflowY: scroll? "auto":"hidden"}} onAnimationStart={() => setScroll(false)} onAnimationComplete={() => setScroll(false)} className = "expandedInfo">
               <motion.div layout initial={{opacity:0}} animate={{opacity:1}} className="routeOverview">{
                 fetchTextualDirections().map((item, index)=>{
                     return(
-                      <motion.div layout className="routeOverview" key={index}>
-                        {item.type === "WALKING"? <DirectionsWalkIcon className="breadcrumbIcon" sx={{color: "white", fontSize:"2vw"}}/> :
-                          <motion.img layout className="breadcrumbIcon" alt="transit"  src={item.icon}/>}
-                        {index + 1 != fetchTextualDirections().length &&
-                        <DoubleArrowIcon  sx={{color:"white", marginLeft:".5vw", marginRight:".5vw"}}/>}
-                      </motion.div >
+
+                        <motion.div layout className="routeOverview" key={index}>
+                          {item.type === "WALKING" ?
+                            <DirectionsWalkIcon  sx={{color: "white", fontSize: "1.5vw"}}/> : (item.icon? <motion.img layout  alt="transit" src={item.icon}/>:<DirectionsBusIcon sx={{color: "white", fontSize: "1.5vw"}}/>)}
+
+                          {index + 1 != fetchTextualDirections().length &&
+                            <DoubleArrowIcon sx={{color: "white"}}/>}
+                        </motion.div>
+
+
                     )
-                  })}
-            </motion.div>
-              <div className = "textDirections" >
+                })}
+
+              </motion.div>
+
+              <div className="textDirections">
                 {fetchTextualDirections().map((item, index) => {
-                    if (item.type === 'WALKING') {
-                      return (
-                        <motion.div layout initial={{opacity:0}} animate={{opacity:1}} key={index} className = "directionsContainer">
-                          <DirectionsWalkIcon className="directionsIcon" sx={{color:"white", fontSize:"2rem"}}/>
+                  if (item.type === 'WALKING') {
+                    return (
+                      <motion.div layout initial={{opacity: 0}} animate={{opacity: 1}} key={index}
+                                  className="directionsContainer">
+                        <DirectionsWalkIcon className="directionsIcon" sx={{color:"white", fontSize:"2rem"}}/>
                           <motion.h1 layout className="directionsText">{item.step}</motion.h1>
                         </motion.div>
                       )
                     } else {
                       return (
                         <motion.div layout initial={{opacity:0}} animate={{opacity:1}} key={index} className = "directionsContainer">
-                          <motion.img layout className="directionsIcon" src={item.icon} alt="test"/>
+
+                          {(item.icon ? <motion.img layout className="directionsIcon" src={item.icon} alt="test"/>: <DirectionsBusIcon className="directionsIcon" sx={{color:"white", fontSize:"2rem"}}/>)}
+
                           <motion.h1 layout className="directionsText">{item.step}</motion.h1>
                         </motion.div>
                       )
@@ -263,18 +272,18 @@ const PathfindingCard = () =>{
             </motion.div>}
             {expanded &&
               <motion.div layout className = "saveButtonContainer">
-                   <MotionButton layout initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.4}} className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue', marginRight:"1vw"}}>
+                   <Button   className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue', marginRight:"1vw"}}>
                     <div className="buttonContent">
                       <SaveIcon className="buttonIcon"/>
                       <p>Save Trip </p>
                     </div>
-                  </MotionButton>
-                  <MotionButton layout initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.4 }}  className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={handlePrint}>
+                  </Button>
+                  <Button   className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={handlePrint}>
                     <div className="buttonContent">
                       <DownloadIcon className="buttonIcon"/>
                       <p>Download Directions</p>
                     </div>
-                  </MotionButton>
+                  </Button>
               </motion.div>
             }
           </motion.div>
