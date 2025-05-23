@@ -90,6 +90,10 @@ const PathfindingCard = () =>{
     const oldEnd = currentValueDestination;
     setCurrentValueStart(oldEnd);
     setCurrentValueDestination(oldStart);
+    setEnd(oldStart?.description);
+    setStart(oldEnd?.description)
+
+
   }
 
   //creates textual directions
