@@ -20,6 +20,7 @@
 }
 
 .placeSelector{
+    margin-top: 1vh;
     place-items: end;
     margin-right: 1vw;
     margin-left:1vw;
