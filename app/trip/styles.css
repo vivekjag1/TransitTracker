@@ -1,7 +1,7 @@
 .parentContainer{
     display: flex;
     flex-direction: row;
-    overflow: hidden;
+    overflow-y: hidden;
 }
 .mapViewer{
     height: 100vh;

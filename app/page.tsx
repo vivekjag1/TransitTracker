@@ -11,6 +11,7 @@ import { useState} from "react";
 
 
 export default function Home() {
+
   const imageArr = [plane, tubeMap, train ]
   const [currIndex, setCurrIndex] = useState<number>(0);
   return (
