@@ -15,7 +15,7 @@ export default function Home() {
   const imageArr = [plane, tubeMap, train ]
   const [currIndex, setCurrIndex] = useState<number>(0);
   return (
-    <a href="/trip">
+    <a href="/auth/login">
       <div className = "heroParent">
         <div className="leftTextPane">
           <h1 className="title"> Transit Tracker</h1>
