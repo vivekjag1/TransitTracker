@@ -30,7 +30,7 @@ import {DownloadIcon} from "lucide-react";
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
