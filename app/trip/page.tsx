@@ -51,6 +51,7 @@ const Trip = () =>{
   );
 }
 const PathfindingCard = () =>{
+  const printRef = useRef(null);
   //holds starting and ending destinations
   const [start, setStart] = useState<string>();
   const [end, setEnd] = useState<string>();
@@ -144,6 +145,15 @@ const PathfindingCard = () =>{
     if (routes.length == 0) return;
     fetchTextualDirections();
   }, [routes, fetchTextualDirections]);
+  const makePDF = useReactToPrint({
+    contentRef: printRef,
+    documentTitle: "directions"
+  });
+  const handlePrint = () =>{
+
+    setExpanded(true);
+    makePDF();
+  }
 
   //framer motion icons
   const MotionSwap = motion.create(SwapVertIcon);
@@ -209,7 +219,7 @@ const PathfindingCard = () =>{
           </Button>
 
         </motion.div>
-        {directionsAvailable && <motion.div className="infoWindow" >
+        {directionsAvailable && <motion.div className="infoWindow" ref={printRef}>
           <motion.div  transition={{duration:.3}} layout className="resultsWindow">
             <motion.div layout className="statsWindow">
               <div className="statContainer">
@@ -282,7 +292,7 @@ const PathfindingCard = () =>{
                       <p>Save Trip </p>
                     </div>
                   </Button>
-                  <Button   className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue'}}>
+                  <Button   className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue'}} onClick={handlePrint}>
                     <div className="buttonContent">
                       <DownloadIcon className="buttonIcon"/>
                       <p>Download Directions</p>
