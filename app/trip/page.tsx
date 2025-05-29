@@ -36,7 +36,7 @@ import { useRouter } from 'next/navigation'
 
 const Trip = () =>{
   const router = useRouter();
-  const { user, isLoading } = useUser();
+  const {user, isLoading } = useUser();
   if(!user && !isLoading){
     router.push('/auth/login')
   }

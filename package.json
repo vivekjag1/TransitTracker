@@ -16,7 +16,7 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "@mui/material-nextjs": "^7.1.0",
-    "@prisma/client": "^6.8.2",
+    "@prisma/client": "2.21.2",
     "@prisma/extension-accelerate": "^2.0.1",
     "@radix-ui/react-alert-dialog": "^1.1.13",
     "@radix-ui/react-dialog": "^1.1.13",
