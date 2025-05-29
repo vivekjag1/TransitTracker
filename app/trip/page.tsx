@@ -31,8 +31,15 @@ import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import { toast } from "sonner";
+import { useUser } from "@auth0/nextjs-auth0";
+import { useRouter } from 'next/navigation'
 
 const Trip = () =>{
+  const router = useRouter();
+  const { user, isLoading } = useUser();
+  if(!user && !isLoading){
+    router.push('/auth/login')
+  }
   const {isLoaded} = useLoadScript({
     googleMapsApiKey:process.env.NEXT_PUBLIC_MAPS_API_KEY!,
     libraries:["places"]
