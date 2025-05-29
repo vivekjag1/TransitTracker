@@ -30,6 +30,7 @@ import {DownloadIcon} from "lucide-react";
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
+import { toast } from "sonner";
 
 const Trip = () =>{
   const {isLoaded} = useLoadScript({
@@ -50,30 +51,39 @@ const Trip = () =>{
   );
 }
 const PathfindingCard = () =>{
-
-  const { setValue, suggestions:{ data}} = usePlacesAutocomplete({debounce:300});
+  const printRef = useRef(null);
   //holds starting and ending destinations
   const [start, setStart] = useState<string>();
   const [end, setEnd] = useState<string>();
   const [currentValueStart, setCurrentValueStart] = useState<AutocompletePrediction|null>(null);
-  const[currentValueDestination, setCurrentValueDestination] = useState<AutocompletePrediction|null>(null);
-  const compRef = useRef(null);
+  const [currentValueDestination, setCurrentValueDestination] = useState<AutocompletePrediction|null>(null);
+
   //google maps services
   const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService>();
   const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer>();
 
   //selected routes TODO: replace with cost, transfer optimization
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  // const [cleared, setCleared] = useState<boolean>(false);
-  // const [routeIndex, setRouteIndex] = useState<number>(0);
+
+  //state variable to hold whether directions have been fetched
   const [directionsAvailable, setDirectionsAvailable] = useState<boolean>(false);
 
+  //state variable to hold whether the card is expanded
   const [expanded, setExpanded] = useState<boolean>(false);
-  //google maps hooks
-  const map = useMap();//hook returns instance of a map and renders directions
-  const routesLibrary = useMapsLibrary("routes"); //loads routes
 
+  //state variable to prevent scrolling while framer-motion animation is running
   const [scroll, setScroll] = useState<boolean>(false);
+
+  //hook that returns instance of google map
+  const map = useMap();//hook returns instance of a map and renders directions
+
+  //autocomplete hooks
+  const { setValue, suggestions:{ data}} = usePlacesAutocomplete({debounce:300});
+
+  //load routes library
+  const routesLibrary = useMapsLibrary("routes");
+
+
   //starts directions services, renders polyline
   useEffect(()=>{
     if(!routesLibrary || !map){
@@ -84,12 +94,14 @@ const PathfindingCard = () =>{
     setDirectionsRenderer(new routesLibrary.DirectionsRenderer({map}));
   }, [routesLibrary, map]); //initialize services
 
-
+  //swaps start and end destination
   const handleSwap = () =>{
     const oldStart = currentValueStart;
     const oldEnd = currentValueDestination;
     setCurrentValueStart(oldEnd);
     setCurrentValueDestination(oldStart);
+    setEnd(oldStart?.description);
+    setStart(oldEnd?.description);
   }
 
   //creates textual directions
@@ -103,14 +115,15 @@ const PathfindingCard = () =>{
     });
   }
 
-  //updates state
+  //submits the start and end locations to the google maps service, renders polyline
   const handleSubmit = () =>{
-    if(!directionsRenderer || !directionsService){
+    if(!directionsRenderer || !directionsService){ //check if services are available. return if not
       return;
     }
-    if(!start || !end ){
+    if(!start || !end ){ //check if start and end exist. return if not
       return;
     }
+    //fetch directions then render on the map
     directionsService.route({
       origin:start,
       destination:end,
@@ -118,35 +131,36 @@ const PathfindingCard = () =>{
       provideRouteAlternatives:true,
     }).then(res =>{
       directionsRenderer.setDirections(res);
-
       setRoutes(res.routes);
       setDirectionsAvailable(true);
-
-    }).catch((e:google.maps.MapsRequestError) =>{
-      alert("No such path exists!"); //replace with toast eventually
-      console.log(e);
+    }).catch(() =>{
+      toast.error("No such path exists!");
     })
   }
+  //function to convert total time to mins.
+  const findTime = () => Math.round(((routes[0]?.legs[0]?.duration?.value) as number) / 60);
 
-  const findTime = () => Math.round(((routes[0]?.legs[0]?.duration?.value) as number) / 60)
-
-
+  //function to fetch text directions when ready
   useEffect(() => {
     if (routes.length == 0) return;
     fetchTextualDirections();
   }, [routes, fetchTextualDirections]);
-
-  const handlePrint = useReactToPrint({
-    contentRef: compRef,
+  const makePDF = useReactToPrint({
+    contentRef: printRef,
     documentTitle: "directions"
   });
+  const handlePrint = () =>{
 
+    setExpanded(true);
+    makePDF();
+  }
 
+  //framer motion icons
   const MotionSwap = motion.create(SwapVertIcon);
   const MotionUp = motion.create(KeyboardArrowUpIcon);
   const MotionDown = motion.create(KeyboardArrowDownIcon);
   return(
-    <div  style={ {overflowY: expanded? "auto": 'visible'}} className="pathfindingCardWrapper" ref={compRef}>
+    <div  style={ {overflowY: expanded? "auto": 'visible'}} className="pathfindingCardWrapper" >
       <motion.div className="pathfindingCardContent" style={{overflowX: expanded? "hidden":"visible"}}>
         <motion.div layout className="iconAutocompleteContainer">
           <ShareLocationIcon sx={{fontSize: "4vh", color: "darkblue"}}/>
@@ -205,7 +219,7 @@ const PathfindingCard = () =>{
           </Button>
 
         </motion.div>
-        {directionsAvailable && <motion.div className="infoWindow" >
+        {directionsAvailable && <motion.div className="infoWindow" ref={printRef}>
           <motion.div  transition={{duration:.3}} layout className="resultsWindow">
             <motion.div layout className="statsWindow">
               <div className="statContainer">
