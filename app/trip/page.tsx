@@ -31,8 +31,22 @@ import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import { toast } from "sonner";
+import { useUser } from "@auth0/nextjs-auth0";
+import { useRouter } from 'next/navigation'
+import axios from 'axios';
 
+type TextDirection = {
+  type:string;
+  step:string;
+  icon:string|undefined;
+
+}
 const Trip = () =>{
+  const router = useRouter();
+  const {user, isLoading } = useUser();
+  if(!user && !isLoading){
+    router.push('/auth/login')
+  }
   const {isLoaded} = useLoadScript({
     googleMapsApiKey:process.env.NEXT_PUBLIC_MAPS_API_KEY!,
     libraries:["places"]
@@ -51,6 +65,8 @@ const Trip = () =>{
   );
 }
 const PathfindingCard = () =>{
+  const {user, isLoading } = useUser();
+
   const printRef = useRef(null);
   //holds starting and ending destinations
   const [start, setStart] = useState<string>();
@@ -73,6 +89,7 @@ const PathfindingCard = () =>{
 
   //state variable to prevent scrolling while framer-motion animation is running
   const [scroll, setScroll] = useState<boolean>(false);
+  const [text, setText] = useState<TextDirection[]>([]);
 
   //hook that returns instance of google map
   const map = useMap();//hook returns instance of a map and renders directions
@@ -111,12 +128,13 @@ const PathfindingCard = () =>{
         return {type: "TRANSIT", step:`Board the ${(step.transit?.line.name != undefined)? step.transit?.line.name:step.transit?.line.agencies![0]?.name }: ${step.transit?.headsign} for ${step.transit?.num_stops} stops until ${step.transit?.arrival_stop.name}`,
           icon:  step?.transit?.line?.vehicle.local_icon}
       }
-      return {type:"WALKING", step:step.instructions}
+      return {icon:undefined, type:"WALKING", step:step.instructions}
     });
   }
 
   //submits the start and end locations to the google maps service, renders polyline
   const handleSubmit = () =>{
+    console.log("running!", start, end);
     if(!directionsRenderer || !directionsService){ //check if services are available. return if not
       return;
     }
@@ -143,16 +161,29 @@ const PathfindingCard = () =>{
   //function to fetch text directions when ready
   useEffect(() => {
     if (routes.length == 0) return;
-    fetchTextualDirections();
+    const text = fetchTextualDirections();
+    // setText(text);
   }, [routes, fetchTextualDirections]);
   const makePDF = useReactToPrint({
     contentRef: printRef,
     documentTitle: "directions"
   });
   const handlePrint = () =>{
-
     setExpanded(true);
     makePDF();
+  }
+
+  const handleSaveTrip = async () => {
+    await axios.post('/api/saveTrip', {
+      username: user!.nickname,
+      startLocation: start,
+      endLocation: end,
+      directions: fetchTextualDirections().map((item) => item.step),
+      travelTime: findTime(),
+      currency: routes[0]?.fare?.currency,
+      cost: routes[0]?.fare?.value
+    });
+    return;
   }
 
   //framer motion icons
@@ -286,7 +317,7 @@ const PathfindingCard = () =>{
             </motion.div>}
             {expanded &&
               <motion.div layout className = "saveButtonContainer">
-                   <Button   className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue', marginRight:"1vw"}}>
+                   <Button   className="saveButton" variant="contained" sx={{backgroundColor: 'darkblue', marginRight:"1vw"}} onClick = {handleSaveTrip}>
                     <div className="buttonContent">
                       <SaveIcon className="buttonIcon"/>
                       <p>Save Trip </p>
