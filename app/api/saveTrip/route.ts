@@ -13,7 +13,7 @@ import {prisma} from '@/initDB';
 export async function POST(req:NextRequest){
   const data =  await req.json();
   //first check if the user exists, create if not
-  const userExists = await prisma.user.upsert({
+   await prisma.user.upsert({
     where:{
       username: data.username
     },
