@@ -12,7 +12,7 @@ import CommuteIcon from '@mui/icons-material/Commute';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { usePathname } from 'next/navigation';
-
+import LogoutIcon from '@mui/icons-material/Logout';
 const Navbar = () => {
   const [isOpen, setOpen] = useState(true);
   const MotionImage = motion.create(Image);
@@ -22,6 +22,7 @@ const Navbar = () => {
   const MotionTrips = motion.create(CommuteIcon);
   const MotionOpen = motion.create(KeyboardDoubleArrowRightIcon);
   const MotionClose = motion.create(KeyboardDoubleArrowLeftIcon);
+  const MotionLogout = motion.create(LogoutIcon);
   const pathname = usePathname();
 
   const shouldShow = () =>{
@@ -50,12 +51,17 @@ const Navbar = () => {
           <NavItem imageAlt={"My Trips"} linkTo={"/myTrips"} textDescription={"My Trips"} open={isOpen} isTitle={false}>
             <MotionTrips layout className={isOpen ? "iconOpen" : "iconClose"} sx={{fontSize: "2vw"}}/>
           </NavItem>
+          <NavItem imageAlt={"Logout"} linkTo={"/auth/logout"} textDescription={"Log Out"} open={isOpen} isTitle={false}>
+            <MotionLogout layout className={isOpen ? "iconOpen" : "iconClose"} sx={{fontSize: "2vw"}}/>
+          </NavItem>
           <div className="navbarLayoutClose" onClick={isOpen ? () => setOpen(false) : () => setOpen(true)}>
+
             <div className="iconAndTitleContainer">
               {isOpen ? <MotionClose layout className={isOpen ? "iconOpen" : "iconClose"} sx={{fontSize: "2vw"}}/>
                 : <MotionOpen layout className={isOpen ? "iconOpen" : "iconClose"} sx={{fontSize: "2vw"}}/>}
               {isOpen && <motion.h1 layout className="titleText">Collapse</motion.h1>}
             </div>
+
           </div>
         </div>
       </motion.nav>
