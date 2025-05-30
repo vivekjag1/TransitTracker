@@ -179,6 +179,9 @@ const PathfindingCard = () =>{
       startLocation: start,
       endLocation: end,
       directions: fetchTextualDirections().map((item) => item.step),
+      travelTime: findTime(),
+      currency: routes[0]?.fare?.currency,
+      cost: routes[0]?.fare?.value
     });
     return;
   }

@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  username String @id // stores the username of the user (auth0 will make sure this is unique)
+  username String @id
   trips    Trip[]
 }
 
@@ -19,8 +19,8 @@ model Trip {
   endLocation   String
   directions    String[]
   travelTime    Int
-  currancy      String
   cost          Int
-  username      String   @unique
+  username      String
+  currency      String
   user          User     @relation(fields: [username], references: [username])
 }

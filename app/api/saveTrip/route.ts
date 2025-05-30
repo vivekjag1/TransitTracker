@@ -5,6 +5,9 @@ type Trip = {
   endLocation: string;
   directions:string[];
   username: string;
+  travelTime:number,
+  currency:string,
+  cost:number
 }
 import {prisma} from '@/initDB';
 export async function POST(req:NextRequest){
@@ -25,9 +28,22 @@ export async function POST(req:NextRequest){
     endLocation: data.endLocation,
     directions: data.directions,
     username: data.username,
+    travelTime: data.travelTime,
+    currency: data.currency,
+    cost: data.cost,
   }
+  console.log(toAdd);
+
   const newTrip = await prisma.trip.create({
-    data:toAdd
+    data: {
+      startLocation: data.startLocation,
+      endLocation: data.endLocation,
+      directions: data.directions,
+      username: data.username,
+      travelTime: data.travelTime,
+      currency: (data.currency? data.currency: 'N/A'),
+      cost: (data.cost? data.cost: 0),
+    }
   });
   return NextResponse.json({status: 200, tripID: newTrip.tripID})
 }
