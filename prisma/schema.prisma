@@ -1,10 +1,26 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generated/prisma"
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+}
+
+model User {
+  username String @id
+  trips    Trip[]
+}
+
+model Trip {
+  tripID        Int      @id @default(autoincrement())
+  startLocation String
+  endLocation   String
+  directions    String[]
+  travelTime    Int
+  cost          Int
+  username      String
+  currency      String
+  user          User     @relation(fields: [username], references: [username])
 }
