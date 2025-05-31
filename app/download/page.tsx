@@ -5,7 +5,9 @@ import axios from 'axios';
 import {Trip} from "@prisma/client";
 import './styles.css'
 import {useRouter} from "next/navigation";
-
+import {TripTable} from './TripTable'
+import {TripColumn} from "@/app/download/TripColumn";
+import {motion} from 'framer-motion';
 const Download = () => {
   const router = useRouter();
 
@@ -28,11 +30,11 @@ const Download = () => {
 
   useEffect(() => console.log(trips),  [trips])
 
-
   return (
-    <div>
+    <motion.div layout>
+      <TripTable columns={TripColumn} data={trips}/>
 
-    </div>
+    </motion.div>
   )
 }
 export default Download;
