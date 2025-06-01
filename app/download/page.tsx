@@ -10,11 +10,9 @@ import {TripColumn} from "@/app/download/TripColumn";
 import {motion} from 'framer-motion';
 const Download = () => {
   const router = useRouter();
-
   const {user, isLoading} = useUser();
   const [trips, setTrips] = useState<Trip[]>([]);
   const  [fetched, setFetched] = useState<boolean>(false);
-
   //UE to fetch user trips on load
   const fetchData = async () => {
     const trips = await axios.get(`/api/getTrips/${user!.nickname}`);
@@ -27,14 +25,12 @@ const Download = () => {
   else if (!fetched  &&  user && !isLoading){
     fetchData().then();
   }
-
-  useEffect(() => console.log(trips),  [trips])
-
   return (
-    <motion.div layout>
-      <TripTable columns={TripColumn} data={trips}/>
-
-    </motion.div>
+    <div  className = "tripTableParent">
+      <div className = "tableContainer">
+        <TripTable columns={TripColumn} data={trips} />
+      </div>
+    </div>
   )
 }
 export default Download;
