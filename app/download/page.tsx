@@ -8,6 +8,9 @@ import {useRouter} from "next/navigation";
 import {TripTable} from './TripTable'
 import {TripColumn} from "@/app/download/TripColumn";
 import {motion} from 'framer-motion';
+import {Button} from "@/components/ui/button";
+import {TableContext} from "@/app/download/TableContext";
+
 const Download = () => {
   const router = useRouter();
   const {user, isLoading} = useUser();
@@ -25,11 +28,18 @@ const Download = () => {
   else if (!fetched  &&  user && !isLoading){
     fetchData().then();
   }
+
+  const initContext = {
+    data:trips,
+    setData: (trips:Trip[]) => setTrips(trips)
+  }
   return (
     <div  className = "tripTableParent">
-      <div className = "tableContainer">
-        <TripTable columns={TripColumn} data={trips} />
-      </div>
+      <TableContext value={initContext}>
+        <div className="tableContainer">
+          <TripTable columns={TripColumn} />
+        </div>
+      </TableContext>
     </div>
   )
 }

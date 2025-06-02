@@ -11,5 +11,21 @@
 .tableContainer{
     height: fit-content;
     width: fit-content;
+    max-width: 80vw;
 }
 
+.tableButtons{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.exportButton{
+    margin-right: 1vw;
+    cursor: pointer;
+}
+button{
+    cursor: pointer;
+}

@@ -26,25 +26,37 @@ import {
 
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import {useEffect} from "react";
-
+import './styles.css'
+import {Trip} from "@prisma/client";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-}
+  columns: ColumnDef<Trip, any>[];
 
+
+}
+import axios from 'axios';
+import {useContext, useState} from "react";
+import {TableContext} from "@/app/download/TableContext";
 export function TripTable<TData, TValue>({
                                            columns,
-                                           data,
+
                                          }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+
+  const {data, setData} = useContext(TableContext);
   const [rowSelection, setRowSelection] = React.useState({})
-
-
+  const handleDelete = async () =>{
+    // @ts-ignore
+    const toDelete = table.getSelectedRowModel().rows.map((item) => item.original.tripID)
+    setData(data.filter((item) => !toDelete.includes(item.tripID)));
+    await axios.post('/api/deleteTrip',  {
+      tripIDs: toDelete
+    });
+    //now filter through the state
+  }
   const table = useReactTable({
     data,
     columns,
@@ -63,6 +75,7 @@ export function TripTable<TData, TValue>({
     },
     state:{
       sorting,
+
       columnFilters,
       rowSelection
     }
@@ -70,7 +83,7 @@ export function TripTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex flex-row justify-between items-center py-4">
         <Input
           placeholder="Filter destinations ... "
           value={(table.getColumn("endLocation")?.getFilterValue() as string) ?? ""}
@@ -79,6 +92,10 @@ export function TripTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <div className  =  "tableButtons">
+          <Button onClick={() => console.log("test")} className="exportButton"> Export Selected Trips</Button>
+          <Button onClick={handleDelete} className="deleteExportButton"  variant="destructive"> Delete Selected Trips</Button>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -87,7 +104,7 @@ export function TripTable<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-left">
+                    <TableHead key={header.id} className="text-center  ">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -103,12 +120,12 @@ export function TripTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow className="text-left"
+                <TableRow className="text-center"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell className="text-center" key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -116,7 +133,7 @@ export function TripTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell colSpan={columns.length} className="h-24 ">
                   No results.
                 </TableCell>
               </TableRow>

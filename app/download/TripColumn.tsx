@@ -46,7 +46,7 @@ export const TripColumn:ColumnDef<Trip>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Start Location
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className=" h-4 w-4" />
         </Button>
       )
     },
@@ -60,7 +60,7 @@ export const TripColumn:ColumnDef<Trip>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           End Location
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className=" h-4 w-4" />
         </Button>
       )
     },
@@ -74,7 +74,7 @@ export const TripColumn:ColumnDef<Trip>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Cost
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className=" h-4 w-4" />
         </Button>
       )
     },
@@ -102,7 +102,7 @@ export const TripColumn:ColumnDef<Trip>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Travel Time (Minutes)
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className=" h-4 w-4" />
         </Button>
       )
     },
