@@ -1,8 +1,9 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from '@/initDB'
-export async function GET(req:NextRequest, {params}:{params:{user:string}}){
+
+export async function GET(req:NextRequest, {params}:{params:Promise<{user:string}>}){
   try{
-    const {user} = await params;
+    const user = (await params).user;
     const trips = await prisma.trip.findMany({
       where:{
         username:  user

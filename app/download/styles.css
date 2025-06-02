@@ -12,6 +12,7 @@
     height: fit-content;
     width: fit-content;
     max-width: 80vw;
+    min-width: 50vw;
 }
 
 .tableButtons{
