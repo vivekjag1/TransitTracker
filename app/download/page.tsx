@@ -1,5 +1,5 @@
 "use client";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useUser} from "@auth0/nextjs-auth0";
 import axios from 'axios';
 import {Trip} from "@prisma/client";
@@ -7,10 +7,7 @@ import './styles.css'
 import {useRouter} from "next/navigation";
 import {TripTable} from './TripTable'
 import {TripColumn} from "@/app/download/TripColumn";
-import {motion} from 'framer-motion';
-import {Button} from "@/components/ui/button";
 import {TableContext} from "@/app/download/TableContext";
-
 const Download = () => {
   const router = useRouter();
   const {user, isLoading} = useUser();
