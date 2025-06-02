@@ -1,0 +1,32 @@
+.tripTableParent{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    margin-top: 5vh;
+    cursor:pointer;
+}
+
+.tableContainer{
+    height: fit-content;
+    width: fit-content;
+    max-width: 80vw;
+    min-width: 50vw;
+}
+
+.tableButtons{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.exportButton{
+    margin-right: 1vw;
+    cursor: pointer;
+}
+button{
+    cursor: pointer;
+}

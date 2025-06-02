@@ -33,6 +33,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
       <AppRouterCacheProvider>
+
       <div className="mainLayout">
         <Toaster richColors position="top-right"/>
         <Navbar/>

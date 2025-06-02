@@ -55,13 +55,11 @@ const Navbar = () => {
             <MotionLogout layout className={isOpen ? "iconOpen" : "iconClose"} sx={{fontSize: "2vw"}}/>
           </NavItem>
           <div className="navbarLayoutClose" onClick={isOpen ? () => setOpen(false) : () => setOpen(true)}>
-
             <div className="iconAndTitleContainer">
               {isOpen ? <MotionClose layout className={isOpen ? "iconOpen" : "iconClose"} sx={{fontSize: "2vw"}}/>
                 : <MotionOpen layout className={isOpen ? "iconOpen" : "iconClose"} sx={{fontSize: "2vw"}}/>}
               {isOpen && <motion.h1 layout className="titleText">Collapse</motion.h1>}
             </div>
-
           </div>
         </div>
       </motion.nav>
